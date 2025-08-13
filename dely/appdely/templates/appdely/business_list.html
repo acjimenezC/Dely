@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'appdely/css/lists.css' %}">
+    <title>Dely</title>
+</head>
+<body>
+    <div class="topbar">Locales disponibles</div>
+    <div class="container">
+        <aside class="sidebar">
+            <h3>Filtros</h3>
+            <form>
+                <label><input type="checkbox" name="categoria" value="comida"> Restaurantes</label><br>
+                <label><input type="checkbox" name="categoria" value="ropa"> Cafes</label><br>
+                <label><input type="checkbox" name="categoria" value="servicios"> Bares</label><br>
+            </form>
+        </aside>
+        <main style="flex:1;">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar local...">
+            </div>
+            <div class="business-list">
+                {% for b in businesses %}
+                <div class="card">
+                    {% if b.images.all %}
+                        {% for img in b.images.all %}
+                            <img src="{% static 'appdely/img/' %}{{ img.image_url }}" alt="Imagen de {{ b.business_name }}" class="card-img">
+                        {% endfor %}
+                    {% else %}
+                        <img src="https://via.placeholder.com/400x160?text=Sin+Imagen" alt="Sin imagen" class="card-img">
+                    {% endif %}
+                    <div class="card-rating">
+                        {% if b.rating %}{{ b.rating|floatformat:1 }}★{% else %}-{% endif %}
+                    </div>
+                    <div class="card-content">
+                        <a href="{% url 'business_detail' b.id %}" class="card-title">{{ b.business_name }}</a>
+                        <div class="card-address">Dirección: {{ b.address }}</div>
+                        <div class="card-desc">Descripción: {{ b.description }}</div>
+                    </div>
+                </div>
+                {% empty %}
+                <div>No hay negocios registrados.</div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

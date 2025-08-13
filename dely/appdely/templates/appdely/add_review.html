@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'appdely/css/reviws.css' %}">
+    <title>Agregar Reseña</title>
+</head>
+<body>
+    <div class="topbar">Agregar reseña para {{ business.business_name }}</div>
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            <label>Calificación:</label>
+            <input type="number" name="rating" min="1" max="5" required>
+
+            <label>Comentario:</label>
+            <textarea name="comment"></textarea>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>

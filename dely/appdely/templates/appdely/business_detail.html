@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Negocio</title>
+    <link rel="stylesheet" href="{% static 'appdely/css/details.css' %}">
+    {% load static %}
+</head>
+<body>
+    <div class="topbar">Detalle del Negocio</div>
+    <div class="container">
+        <h1>{{ business.business_name }}</h1>
+        <p><strong>Dirección:</strong> {{ business.address }}</p>
+        <p><strong>Teléfono:</strong> {{ business.phone_number }}</p>
+        <p><strong>Email:</strong> {{ business.email }}</p>
+        <p>{{ business.description }}</p>
+
+        <h2>Reseñas</h2>
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <strong>{{ review.user.name }} {{ review.user.last_name }}</strong>
+                    ({{ review.rating }}/5)
+                    <br>
+                    {{ review.comment }}
+                    <br>
+                    <em>Reportes: {{ review.reports }}</em>
+                </li>
+            {% empty %}
+                <li>No hay reseñas todavía.</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'add_review' business.id %}" class="add-review-btn">Agregar reseña</a>
+    </div>
+</body>
+</html>
