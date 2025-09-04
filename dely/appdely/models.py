@@ -1,6 +1,6 @@
 from django.db import models
-
-from django.db import models
+from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # User_Types
@@ -11,19 +11,6 @@ class UserType(models.Model):
         return self.description
 
 
-# Users
-class User(models.Model):
-    name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    email = models.CharField(max_length=100, unique=True)  # Evita duplicados
-    password = models.CharField(max_length=50)
-    status = models.BooleanField(default=True)  # True=activo, False=inactivo
-    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)   # Fecha de creación
-    updated_at = models.DateTimeField(auto_now=True)       # Última actualización
-
-    def __str__(self):
-        return f"{self.name} {self.last_name}"
 
 
 # Business_Types
@@ -57,10 +44,24 @@ class BusinessImage(models.Model):
     def __str__(self):
         return f"Imagen de {self.business.business_name}: {self.image_url}"
 
+    from django.core.validators import MinValueValidator, MaxValueValidator
+
+    class Rating(models.Model):
+        user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+        business = models.ForeignKey('Business', on_delete=models.CASCADE, related_name='ratings')
+        stars = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+        created_at = models.DateTimeField(auto_now_add=True)
+        updated_at = models.DateTimeField(auto_now=True)
+
+        class Meta:
+            unique_together = ('user', 'business')
+
+        def __str__(self):
+            return f"{self.user} - {self.business} ({self.stars} estrellas)"
 
 # Favorites
 class Favorite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
 
     class Meta:
@@ -73,7 +74,7 @@ class Favorite(models.Model):
 # Reviews
 class Review(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField()  # 1–5
     comment = models.TextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -87,12 +88,14 @@ class Review(models.Model):
 
 # Points
 class Point(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     amount = models.IntegerField()  
     description = models.CharField(max_length=50)
     registration_date = models.DateTimeField(auto_now_add=True)
     movement_type = models.CharField(max_length=10)  # 'earn' o 'redeem'
 
+
     def __str__(self):
-        return f"{self.amount} points for {self.user}"
+     return f"{self.amount} points for {self.user}"
+
 

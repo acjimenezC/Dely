@@ -1,39 +1,67 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del Negocio</title>
-    <link rel="stylesheet" href="{% static 'appdely/css/details.css' %}">
-    {% load static %}
+    <title>{{ business.business_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .star { color: gold; font-size: 1.5em; }
+    </style>
 </head>
 <body>
-    <div class="topbar">Detalle del Negocio</div>
-    <div class="container">
-        <h1>{{ business.business_name }}</h1>
-        <p><strong>Dirección:</strong> {{ business.address }}</p>
-        <p><strong>Teléfono:</strong> {{ business.phone_number }}</p>
-        <p><strong>Email:</strong> {{ business.email }}</p>
-        <p>{{ business.description }}</p>
+    <div class="container my-5">
+        <h1 class="mb-4">{{ business.business_name }}</h1>
 
-        <h2>Reseñas</h2>
-        <ul>
-            {% for review in reviews %}
-                <li>
-                    <strong>{{ review.user.name }} {{ review.user.last_name }}</strong>
-                    ({{ review.rating }}/5)
-                    <br>
-                    {{ review.comment }}
-                    <br>
-                    <em>Reportes: {{ review.reports }}</em>
-                </li>
-            {% empty %}
-                <li>No hay reseñas todavía.</li>
-            {% endfor %}
-        </ul>
+        <!-- Carrusel de imágenes -->
+        {% if business.images.all %}
+        <div id="carouselImages" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for img in business.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{% static 'appdely/img/' %}{{ img.image_url }}" class="d-block w-100" alt="Imagen de {{ business.business_name }}">
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+        {% endif %}
 
-        <a href="{% url 'add_review' business.id %}" class="add-review-btn">Agregar reseña</a>
+        <div class="mb-3">
+            <strong>Dirección:</strong> {{ business.address }}
+        </div>
+        <div class="mb-3">
+            <strong>Descripción:</strong> {{ business.description }}
+        </div>
+        <div class="mb-3">
+            <strong>Calificación:</strong>
+            {% with rating=business.rating|default:0 %}
+                {% for i in "12345" %}
+                    {% if forloop.counter <= rating %}
+                        <span class="star">&#9733;</span>
+                    {% else %}
+                        <span class="star text-secondary">&#9733;</span>
+                    {% endif %}
+                {% endfor %}
+                ({{ rating|floatformat:1 }})
+            {% endwith %}
+        </div>
+        <!-- Mapa Google opcional -->
+        <div class="mb-4">
+            <iframe
+                width="100%"
+                height="250"
+                frameborder="0" style="border:0"
+                src="https://www.google.com/maps?q={{ business.address|urlencode }}&output=embed"
+                allowfullscreen>
+            </iframe>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

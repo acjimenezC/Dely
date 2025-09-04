@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'appdely',
+    'accounts',
 ]
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+# Configuración del modelo de usuario personalizado
+AUTH_USER_MODEL = 'accounts.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
