@@ -1,3 +1,94 @@
+/* Reseñas */
+.review-card {
+    border-radius: 16px !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Texto de reseñas */
+.review-card .card-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Carrusel */
+.carousel-inner img {
+    border-radius: 16px;
+}
+body {
+    background: #f5f6fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1 {
+    font-weight: 700;
+    color: #d32f2f;
+}
+.form-container {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+.form-container label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+.form-container textarea, 
+.form-container input {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: all 0.2s;
+}
+.form-container input:focus, 
+.form-container textarea:focus {
+    border-color: #d32f2f;
+    box-shadow: 0 0 5px rgba(211,47,47,0.4);
+}
+.form-container button {
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    padding: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    background: #d32f2f;
+    color: #fff;
+    transition: background 0.3s ease;
+}
+.form-container button:hover {
+    background: #b71c1c;
+}
+/* Estrellas interactivas */
+.rating-stars i {
+    font-size: 1.8rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+.rating-stars i:hover,
+.rating-stars i.active {
+    color: gold;
+    transform: scale(1.2);
+}
+.review-card {
+    border-radius: 12px;
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+.review-card strong {
+    color: #d32f2f;
+}
 body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;

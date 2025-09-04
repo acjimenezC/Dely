@@ -1,49 +1,52 @@
-{% load static %}
+{% load static %} 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>{{ business.business_name }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .star { color: gold; font-size: 1.5em; }
-    </style>
+    <link rel="stylesheet" href="{% static 'appdely/css/reviws.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container my-5">
-        <h1 class="mb-4">{{ business.business_name }}</h1>
 
-        <!-- Carrusel de imágenes -->
+    <div class="container my-5">
+        <!-- Título -->
+        <h1 class="text-center mb-4">{{ business.business_name }}</h1>
+
+        <!-- Carrusel de fotos del local -->
         {% if business.images.all %}
-        <div id="carouselImages" class="carousel slide mb-4" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                {% for img in business.images.all %}
+        <div id="businessImagesCarousel" class="carousel slide mb-4 rounded shadow-sm" data-bs-ride="carousel">
+            <div class="carousel-inner rounded">
+                {% for image in business.images.all %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <img src="{% static 'appdely/img/' %}{{ img.image_url }}" class="d-block w-100" alt="Imagen de {{ business.business_name }}">
+                    <img src="{% static 'appdely/img/' %}{{ image.image_url }}" 
+                         class="d-block w-100 img-fluid" 
+                         alt="Foto del local" 
+                         style="max-height:250px; object-fit:cover; border-radius:12px;">
                 </div>
                 {% endfor %}
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
+            <button class="carousel-control-prev" type="button" data-bs-target="#businessImagesCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
+            <button class="carousel-control-next" type="button" data-bs-target="#businessImagesCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
         {% endif %}
 
+        <!-- Info negocio -->
+        <div class="mb-3"><i class="fa-solid fa-location-dot text-danger me-2"></i><strong>Dirección:</strong> {{ business.address }}</div>
+        <div class="mb-3"><i class="fa-solid fa-circle-info text-danger me-2"></i><strong>Descripción:</strong> {{ business.description }}</div>
         <div class="mb-3">
-            <strong>Dirección:</strong> {{ business.address }}
-        </div>
-        <div class="mb-3">
-            <strong>Descripción:</strong> {{ business.description }}
-        </div>
-        <div class="mb-3">
-            <strong>Calificación:</strong>
+            <i class="fa-solid fa-star text-warning me-2"></i><strong>Calificación:</strong>
             {% with rating=business.rating|default:0 %}
                 {% for i in "12345" %}
                     {% if forloop.counter <= rating %}
-                        <span class="star">&#9733;</span>
+                        <span class="star text-warning">&#9733;</span>
                     {% else %}
                         <span class="star text-secondary">&#9733;</span>
                     {% endif %}
@@ -51,17 +54,53 @@
                 ({{ rating|floatformat:1 }})
             {% endwith %}
         </div>
-        <!-- Mapa Google opcional -->
-        <div class="mb-4">
+
+        <!-- Mapa -->
+        <div class="mb-4 shadow-sm rounded overflow-hidden">
             <iframe
                 width="100%"
-                height="250"
-                frameborder="0" style="border:0"
+                height="220"
+                frameborder="0"
+                style="border:0"
                 src="https://www.google.com/maps?q={{ business.address|urlencode }}&output=embed"
                 allowfullscreen>
             </iframe>
         </div>
+
+        <!-- Botón reseña -->
+        <div class="mb-4">
+            <a href="{% url 'add_review' business.id %}" class="btn btn-danger w-100" style="border-radius:30px; font-weight:600; font-size:1rem;">
+                <i class="fa-solid fa-pen-to-square me-2"></i>Deja tu reseña
+            </a>
+        </div>
+
+        <!-- Reseñas -->
+        <div id="reviews-list">
+            <h4 class="mb-3">Reseñas recientes</h4>
+            <div class="row g-3">
+                {% for review in reviews %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card shadow-sm border-0 h-100 review-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fa-solid fa-user-circle fa-2x text-secondary me-2"></i>
+                                    <div>
+                                        <h6 class="mb-0">{{ review.user.username }}</h6>
+                                        <small class="text-warning fw-bold">{{ review.rating }}★</small>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted small">{{ review.comment }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="text-muted">Aún no hay reseñas para este negocio.</div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

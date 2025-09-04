@@ -1,7 +1,8 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
+from .models import User
+
 
 class RegisterForm(forms.ModelForm):
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
@@ -38,30 +39,4 @@ class RegisterForm(forms.ModelForm):
         except ValidationError as e:
             self.add_error('password1', e)
         return cleaned_data
-from django import forms
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-
-class RegisterForm(forms.ModelForm):
-    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
-
-    class Meta:
-        model = User
-        fields = ['username', 'email']
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if not email or '@' not in email:
-            raise ValidationError('Introduce un email válido.')
-        return email
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password1 = cleaned_data.get('password1')
-        password2 = cleaned_data.get('password2')
-        if not password1 or not password2:
-            raise ValidationError('Debes completar ambos campos de contraseña.')
-        if password1 != password2:
-            raise ValidationError('Las contraseñas no coinciden.')
-        return cleaned_data
+    

@@ -64,6 +64,8 @@ def add_review(request, business_id):
         )
         return redirect('business_detail', business_id=business_id)
 
-    return render(request, 'appdely/add_review.html', {'business': business})
+    # Get recent reviews for this business
+    reviews = Review.objects.filter(business=business).order_by('-id')
+    return render(request, 'appdely/add_review.html', {'business': business, 'reviews': reviews})
 
 

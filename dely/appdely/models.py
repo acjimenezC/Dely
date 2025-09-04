@@ -3,16 +3,6 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-# User_Types
-class UserType(models.Model):
-    description = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.description
-
-
-
-
 # Business_Types
 class BusinessType(models.Model):
     description = models.CharField(max_length=20)

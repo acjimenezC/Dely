@@ -1,8 +1,7 @@
 from django.contrib import admin
 from django.contrib import admin
-from .models import UserType,  BusinessType, Business, BusinessImage, Favorite, Review, Point
+from .models import  BusinessType, Business, BusinessImage, Favorite, Review, Point
 
-admin.site.register(UserType)
 admin.site.register(BusinessType)
 admin.site.register(Business)
 admin.site.register(Favorite)

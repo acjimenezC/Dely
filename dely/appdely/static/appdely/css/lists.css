@@ -101,3 +101,30 @@
             font-size: 1.1rem;
             box-shadow: 0 1px 4px rgba(0,0,0,0.10);
         }
+
+/* Moved from business_list.html */
+.navbar .form-control[type="search"] {
+    height: 56px;
+    font-size: 1.25rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 32px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    background: #f8f9fa;
+    transition: box-shadow 0.2s;
+}
+.navbar .form-control[type="search"]:focus {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    outline: none;
+    background: #fff;
+}
+.navbar .d-flex {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.card-title-hover:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
