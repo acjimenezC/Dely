@@ -49,17 +49,12 @@
         <div class="mb-3"><i class="fa-solid fa-location-dot text-danger me-2"></i><strong>Dirección:</strong> {{ business.address }}</div>
         <div class="mb-3"><i class="fa-solid fa-circle-info text-danger me-2"></i><strong>Descripción:</strong> {{ business.description }}</div>
         <div class="mb-3">
-            <i class="fa-solid fa-star text-warning me-2"></i><strong>Calificación:</strong>
-            {% with rating=business.rating|default:0 %}
-                {% for i in "12345" %}
-                    {% if forloop.counter <= rating %}
-                        <span class="star text-warning">&#9733;</span>
-                    {% else %}
-                        <span class="star text-secondary">&#9733;</span>
-                    {% endif %}
-                {% endfor %}
-                ({{ rating|floatformat:1 }})
-            {% endwith %}
+            <i class="fa-solid fa-star text-warning me-2"></i><strong>Promedio de calificación:</strong>
+            {% if business.average_rating %}
+                <span class="fw-bold">{{ business.average_rating }}</span> / 5
+            {% else %}
+                <span class="text-muted">Sin calificaciones</span>
+            {% endif %}
         </div>
 
         <!-- Mapa -->
@@ -84,25 +79,14 @@
         <!-- Reseñas -->
         <div id="reviews-list">
             <h4 class="mb-3">Reseñas recientes</h4>
-            <div class="row g-3">
-                {% for review in reviews %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card shadow-sm border-0 h-100 review-card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="fa-solid fa-user-circle fa-2x text-secondary me-2"></i>
-                                    <div>
-                                        <h6 class="mb-0">{{ review.user.username }}</h6>
-                                        <small class="text-warning fw-bold">{{ review.rating }}★</small>
-                                    </div>
-                                </div>
-                                <p class="card-text text-muted small">{{ review.comment }}</p>
-                            </div>
-                        </div>
-                    </div>
-                {% empty %}
-                    <div class="text-muted">Aún no hay reseñas para este negocio.</div>
-                {% endfor %}
+            <div class="mb-3">
+                <i class="fa-solid fa-star text-warning me-2"></i><strong>Promedio de calificación:</strong>
+                {% if business.average_rating %}
+                    <span class="fw-bold">{{ business.average_rating }}</span> / 5
+                {% else %}
+                    <span class="text-muted">Sin calificaciones</span>
+                {% endif %}
+                <div class="text-muted">Aún no hay reseñas para este negocio.</div>
             </div>
         </div>
     </div>

@@ -26,6 +26,14 @@ class Business(models.Model):
     
     def __str__(self):
         return self.business_name
+
+    def average_rating(self):
+        reviews = self.review_set.all()
+        if reviews.exists():
+            return round(sum(r.rating for r in reviews) / reviews.count(), 2)
+        return None
+
+    average_rating.short_description = 'Promedio de Calificación'
     
 class BusinessImage(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='images')
