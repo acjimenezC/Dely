@@ -11,6 +11,13 @@
 <body>
 
     <div class="container my-5">
+        <!-- Botón volver al menú principal -->
+        <div class="mb-4">
+            <a href="{% url 'business_list' %}" class="btn btn-outline-secondary" style="border-radius:30px; font-weight:600;">
+                <i class="fa-solid fa-arrow-left me-2"></i> Volver al menú principal
+            </a>
+        </div>
+    <div class="container my-5">
         <!-- Título -->
         <h1 class="text-center mb-4">{{ business.business_name }}</h1>
 

@@ -1,0 +1,61 @@
+body {
+  background: #fafbfc;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
+.container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(220, 53, 69, 0.07);
+  margin-top: 40px;
+  padding: 32px 24px;
+}
+
+.card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 1px 8px rgba(220, 53, 69, 0.08);
+}
+
+.card-title {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid #f3f3f3;
+  background: transparent;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+.points-box {
+  background: #ffeaea;
+  border-radius: 10px;
+  padding: 18px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 6px rgba(220, 53, 69, 0.07);
+}
+
+.points-icon {
+  font-size: 2rem;
+  color: #dc3545;
+}
+
+.points-value {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #dc3545;
+}
+
+.points-label {
+  font-size: 1.1rem;
+  color: #a94442;
+  font-weight: 500;
+}
