@@ -86,8 +86,28 @@
                 {% else %}
                     <span class="text-muted">Sin calificaciones</span>
                 {% endif %}
-                <div class="text-muted">Aún no hay reseñas para este negocio.</div>
             </div>
+            {% if reviews %}
+                <div class="mt-3">
+                    <div class="row g-2">
+                        {% for review in reviews %}
+                        <div class="col-12">
+                            <div class="card border-0 bg-light mb-2">
+                                <div class="card-body p-2">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="fw-bold me-2" style="color:#d32f2f;">{{ review.user.username }}</span>
+                                        <span class="fw-bold" style="color:#ffb300;">— {{ review.rating }}<i class="fa-solid fa-star" style="color:#ffb300;"></i></span>
+                                    </div>
+                                    <div>{{ review.comment|default:'Sin comentario' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-muted">Aún no hay reseñas para este negocio.</div>
+            {% endif %}
         </div>
     </div>
 

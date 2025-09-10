@@ -38,7 +38,7 @@ def business_list(request):
 # Detalle de negocio con reseñas
 def business_detail(request, business_id):
     business = get_object_or_404(Business, id=business_id)
-    reviews = Review.objects.filter(business=business)
+    reviews = Review.objects.filter(business=business).order_by('-date')
     return render(request, 'appdely/business_detail.html', {
         'business': business,
         'reviews': reviews
