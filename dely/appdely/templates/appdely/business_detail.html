@@ -27,21 +27,43 @@
             <div class="carousel-inner rounded">
                 {% for image in business.images.all %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <img src="{% static 'appdely/img/' %}{{ image.image_url }}" 
-                         class="d-block w-100 img-fluid" 
-                         alt="Foto del local" 
-                         style="max-height:250px; object-fit:cover; border-radius:12px;">
+                    {% if "http" in image.image_url %}
+                      <img src="{{ image.image_url }}" 
+                           class="d-block w-100 img-fluid" 
+                           alt="Foto del local" 
+                           style="max-height:450px; object-fit:cover; border-radius:12px;"
+                           onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450?text={{ business.business_name|urlencode }}';">
+                    {% else %}
+                      <img src="{% static 'appdely/img/' %}{{ image.image_url }}" 
+                           class="d-block w-100 img-fluid" 
+                           alt="Foto del local" 
+                           style="max-height:450px; object-fit:cover; border-radius:12px;"
+                           onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450?text={{ business.business_name|urlencode }}';">
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
+            <!-- Indicadores del carrusel -->
+            {% if business.images.all|length > 1 %}
+            <div class="carousel-indicators">
+                {% for image in business.images.all %}
+                <button type="button" data-bs-target="#businessImagesCarousel" data-bs-slide-to="{{ forloop.counter0 }}" 
+                        {% if forloop.first %}class="active" aria-current="true"{% endif %} 
+                        aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <!-- Controles del carrusel -->
+            {% if business.images.all|length > 1 %}
             <button class="carousel-control-prev" type="button" data-bs-target="#businessImagesCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
                 <span class="visually-hidden">Anterior</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#businessImagesCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
                 <span class="visually-hidden">Siguiente</span>
             </button>
+            {% endif %}
         </div>
         {% endif %}
 

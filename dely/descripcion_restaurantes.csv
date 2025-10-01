@@ -1,0 +1,22 @@
+business_name,address,description,phone_number,email,status,business_type
+El Cielo,"Cra. 40 #10A-22, El Poblado, Medellín","Restaurante de alta cocina sensorial en Medellín","+57 604 1234567","reservas@elcielo.com",True,Restaurante, 
+Carmen,"Cra. 36 #10A-27, El Poblado, Medellín","Cocina de autor reconocida a nivel internacional","+57 604 2345678","contacto@carmenmedellin.com",True,Restaurante
+OCI.mde,"Cra. 33 #7-21, El Poblado, Medellín","Restaurante creativo con técnicas modernas","+57 604 3456789","info@oci.com",True,Restaurante
+Bárbaro Cocina Primitiva,"Cra. 43E #11-13, Medellín","Especialidad en carnes a la parrilla","+57 604 4567890","contacto@barbaro.com",True,Restaurante
+La Pampa Parrilla Argentina,"Cra. 36 #10-30, Medellín","Carnes estilo argentino, tradición y sabor","+57 604 5678901","info@lapampa.com",True,Restaurante
+Niku Medellín,"Cra. 35 #8A-89, El Poblado, Medellín","Restaurante japonés de alta gama","+57 604 6789012","reservas@niku.com",True,Restaurante
+Kampanas Cocinas Del Mundo,"Cra. 37 #9-25, Medellín","Propuesta internacional de sabores","+57 604 7890123","info@kampanas.com",True,Restaurante
+Sambombi Bistro Local,"Cra. 43F #16-23, Medellín","Cocina local con ingredientes frescos","+57 604 8901234","reservas@sambombi.com",True,Restaurante
+Brutal,"Cra. 35 #8-66, El Poblado, Medellín","Restaurante contemporáneo, ambiente moderno","+57 604 9012345","contacto@brutal.com",True,Restaurante
+La Sere,"Cra. 37 #8A-65, Medellín","Alta cocina italiana by El Cielo","+57 604 9123456","info@lasere.com",True,Restaurante
+Pergamino Café,"Cra. 37 #8A-37, Medellín","Café de especialidad reconocido en Medellín","+57 604 1239876","info@pergamino.com",True,Café/Bar
+El Laboratorio del Café Eafit,"Carrera 49 #7 sur 50, Medellín","Experiencia científica del café de especialidad","+57 604 2348765","contacto@laboratoriocafe.com",True,Café/Bar
+Ganso & Castor,"Cra. 38 #10-50, Medellín","Café bistró con ambiente europeo","+57 604 3457654","reservas@gansoycastor.com",True,Café/Bar
+Desarrolladores de Café,"Cra. 35 #8B-41, Medellín","Café de especialidad en Provenza","+57 604 4566543","info@desarrolladorescafe.com",True,Café/Bar
+Café Noir,"Cra. 34 #7-29, Medellín","Café-bar elegante y sofisticado","+57 604 5675432","contacto@cafenoir.com",True,Café/Bar
+Café Revolución,"Cra. 73 #Circular 3-20, Laureles","Café con ambiente local en Laureles","+57 604 6784321","info@caferevolucion.com",True,Café/Bar
+Velvet Café,"Cra. 37 #10-25, Medellín","Café especializado en chocolate belga","+57 604 7893210","reservas@velvetcafe.com",True,Café/Bar
+Urbania Café,"Cra. 35 #8B-23, Medellín","Café moderno con granos colombianos","+57 604 8902109","info@urbaniacafe.com",True,Café/Bar
+La Octava Bar,"Cra. 35 #8A-20, Medellín","Bar-discoteca con ambiente juvenil","+57 604 9011098","contacto@laoctava.com",True,Café/Bar
+Vrtice Rooftop,"Cra. 42 #5-20, Medellín","Bar con rooftop y excelente vista","+57 604 9120987","info@vrtice.com",True,Café/Bar
+El Laboratorio del Café,"Carrera 25A #1A Sur-45, Medellín","Experiencia científica del café de especialidad","+57 604 2348765","contacto@laboratoriocafe.com",True,Café/Bar

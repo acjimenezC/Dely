@@ -1,0 +1,42 @@
+# Environment variables and API keys
+/openAI.env
+/open_ai_api_keys.env
+/.env
+/*.env
+
+# Django specific
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Virtual environments
+venv/
+env/
+webapp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+/DjangoProjectBase2/*
+/TutorialGoogle/*
+/movie_pictures/*
+/images.zip
+/DjangoProjectBase/openAI.env

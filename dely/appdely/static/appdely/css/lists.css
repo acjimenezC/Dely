@@ -128,3 +128,51 @@
     color: #0d6efd;
     text-decoration: underline;
 }
+
+/* Estilos TripAdvisor modernos */
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.15) !important;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.btn-heart:hover {
+    background-color: #dc3545 !important;
+    color: white !important;
+    transform: scale(1.1);
+}
+
+.btn-heart:hover i {
+    color: white !important;
+}
+
+.card-title a:hover {
+    color: #dc3545 !important;
+}
+
+.card-img-top {
+    transition: transform 0.3s ease;
+}
+
+.btn-heart {
+    transition: all 0.3s ease;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}

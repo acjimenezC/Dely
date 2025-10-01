@@ -26,13 +26,19 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Business, Review
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 User = get_user_model()
 
 # Lista de negocios
 def business_list(request):
+    query = request.GET.get('q', '')
     businesses = Business.objects.filter(status=True)
-    return render(request, 'appdely/business_list.html', {'businesses': businesses})
+    if query:
+        businesses = businesses.filter(
+            Q(business_name__icontains=query) | Q(description__icontains=query)
+        )
+    return render(request, 'appdely/business_list.html', {'businesses': businesses, 'query': query})
 
 
 # Detalle de negocio con reseñas
