@@ -1,0 +1,86 @@
+body {
+  background: linear-gradient(135deg, #f8f9fa, #e8f0f7);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.logout-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.register-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.logo img {
+  height: 100px;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+.login-title {
+  color: #193730;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.logout-title {
+  color: #193730;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.register-title {
+  color: #193730;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.btn-custom {
+  background: linear-gradient(90deg, #f33, #c1272d);
+  border: none;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 0.7rem;
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  background: linear-gradient(90deg, #c1272d, #900);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(193,39,45,0.3);
+}
+
+.form-label {
+  font-weight: 600;
+  color: #193730;
+}
+
+.form-control {
+  border-radius: 10px;
+  padding: 0.6rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

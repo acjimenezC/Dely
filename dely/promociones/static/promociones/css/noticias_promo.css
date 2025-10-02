@@ -1,0 +1,79 @@
+/* === ESTILOS GENERALES NOTICIAS === */
+body {
+  background-color: #f8f9fa;
+}
+
+/* === LISTA DE NOTICIAS === */
+.news-card {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(220, 53, 69, 0.15);
+}
+
+.news-image {
+  height: 180px;
+  object-fit: cover;
+}
+
+.featured-banner {
+  background: linear-gradient(135deg, #dc3545, #c1272d);
+  border-radius: 20px;
+  color: white;
+  overflow: hidden;
+}
+
+.type-badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+/* === DETALLE DE NOTICIA === */
+.content-section {
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.gallery-image {
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.gallery-image:hover {
+  transform: scale(1.02);
+}
+
+.related-news {
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.related-news:hover {
+  transform: translateY(-2px);
+}
+
+.share-buttons .btn {
+  border-radius: 25px;
+  margin-right: 8px;
+}
+
+/* === DASHBOARD NOTICIAS === */
+.news-mini {
+  border-left: 4px solid #dc3545;
+  padding-left: 1rem;
+}
+
+/* === HERO SECTION NOTICIAS === */
+.news-hero {
+  background: linear-gradient(135deg, #dc3545, #c1272d);
+  color: white;
+}

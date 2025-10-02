@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'appdely',
     'accounts',
+    'promociones',
 ]
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'

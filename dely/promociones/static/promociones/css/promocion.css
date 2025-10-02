@@ -1,0 +1,121 @@
+/* === ESTILOS GENERALES === */
+body {
+  background-color: #f8f9fa;
+}
+
+/* === PROMOCIONES === */
+.promo-card {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.promo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(220, 53, 69, 0.15);
+}
+
+.promo-image {
+  height: 200px;
+  object-fit: cover;
+  position: relative;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(45deg, #dc3545, #c1272d);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.time-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.filter-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* === HERO SECTIONS === */
+.promo-hero {
+  background: linear-gradient(135deg, #dc3545, #c1272d);
+  color: white;
+}
+
+.news-hero {
+  background: linear-gradient(135deg, #dc3545, #c1272d);
+  color: white;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #dc3545, #c1272d);
+  color: white;
+  border-radius: 20px;
+}
+
+/* === DETALLE PROMOCIÓN === */
+.promo-image {
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.status-badge {
+  font-size: 1.1rem;
+  padding: 8px 16px;
+  border-radius: 25px;
+}
+
+.related-card {
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.related-card:hover {
+  transform: translateY(-2px);
+}
+
+/* === DASHBOARD === */
+.section-card {
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.section-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(220, 53, 69, 0.15);
+}
+
+.urgent-badge {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(238, 90, 36, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(238, 90, 36, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(238, 90, 36, 0); }
+}
+
+.stats-card {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+}

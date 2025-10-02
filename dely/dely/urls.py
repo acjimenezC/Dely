@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('appdely.urls')),
     path('accounts/', include('accounts.urls')),
+    path('promociones/', include('promociones.urls')),
 ]

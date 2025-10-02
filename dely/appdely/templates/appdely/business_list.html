@@ -53,8 +53,11 @@
                   </form>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link position-relative" href="{% url 'promociones_noticias' %}">
                     <i class="bi bi-gift me-1"></i> Promociones
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                      HOT
+                    </span>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -93,80 +96,86 @@
       <div class="row">
         <!-- Filtros laterales -->
         <aside class="col-md-3 mb-4">
+          <!-- Encabezado de filtros -->
+          <div class="bg-danger text-white rounded-3 p-3 mb-4">
+            <h5 class="fw-bold mb-0 text-center">
+              <i class="fas fa-filter me-2"></i>Filtros
+            </h5>
+          </div>
+          
           <div class="bg-white rounded shadow-sm p-3 mb-4">
             <h5 class="fw-bold mb-3">Tipo de establecimiento <span class="float-end">&#x25B2;</span></h5>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="restaurantes">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="business_type" value="restaurante" id="restaurantes">
               <label class="form-check-label" for="restaurantes">Restaurantes</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="cafe">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="business_type" value="cafe" id="cafe">
               <label class="form-check-label" for="cafe">Café y té</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="bares">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="business_type" value="bar" id="bares">
               <label class="form-check-label" for="bares">Bares y pubs</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="postres">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="business_type" value="postres" id="postres">
               <label class="form-check-label" for="postres">Postres</label>
             </div>
           </div>
           <div class="bg-white rounded shadow-sm p-3 mb-4">
             <h5 class="fw-bold mb-3">Tipo de comida <span class="float-end">&#x25B2;</span></h5>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="desayuno">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="meal_type" value="desayuno" id="desayuno">
               <label class="form-check-label" for="desayuno">Desayuno</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="brunch">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="meal_type" value="brunch" id="brunch">
               <label class="form-check-label" for="brunch">Brunch</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="almuerzo">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="meal_type" value="almuerzo" id="almuerzo">
               <label class="form-check-label" for="almuerzo">Almuerzo</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="cena">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="meal_type" value="cena" id="cena">
               <label class="form-check-label" for="cena">Cena</label>
             </div>
           </div>
           <div class="bg-white rounded shadow-sm p-3 mb-4">
             <h5 class="fw-bold mb-3">Tipos de cocina <span class="float-end">&#x25B2;</span></h5>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="colombiana">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="cuisine_type" value="colombiana" id="colombiana">
               <label class="form-check-label" for="colombiana">Colombiana</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="sudamericana">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="cuisine_type" value="sudamericana" id="sudamericana">
               <label class="form-check-label" for="sudamericana">Sudamericana</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="italiana">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="cuisine_type" value="italiana" id="italiana">
               <label class="form-check-label" for="italiana">Italiana</label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" id="bar">
+              <input class="form-check-input filter-checkbox" type="checkbox" name="cuisine_type" value="bar" id="bar">
               <label class="form-check-label" for="bar">Bar</label>
             </div>
             
-            <div class="d-grid mt-3">
-              <button type="button" class="btn btn-danger rounded-pill">Filtrar</button>
-            </div>
           </div>
         </aside>
         <main class="col-md-9">
-          <h1 class="mb-4">Restaurantes</h1>
-
-  <!-- Header -->
-  <header class="bg-danger text-white text-center py-5">
-    <div class="container">
-      <h1 class="display-4">Restaurantes en Medellín</h1>
-      <p class="lead">Descubre los mejores lugares para comer en la ciudad</p>
-    </div>
-  </header>
-
-  <!-- Filtros -->
+          <!-- Header moderno -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="display-6 fw-bold text-danger mb-2"> Restaurantes</h1>
+              <p class="text-muted">Descubre los mejores sabores de Medellín</p>
+            </div>
+            <div class="text-center">
+              <div class="bg-white rounded-3 p-3 shadow-sm border border-danger border-opacity-25">
+                <h4 class="fw-bold text-danger mb-0">{{ businesses|length }}</h4>
+                <small class="text-muted">Restaurantes</small>
+              </div>
+            </div>
+          </div>
 
   <!-- Lista de restaurantes desde la base de datos -->
   <div class="container my-5">
@@ -279,22 +288,189 @@
       </div>
       {% empty %}
       <div class="col-12 text-center py-5">
-        <i class="fa-solid fa-utensils text-muted mb-3" style="font-size: 3rem;"></i>
-        <h4 class="text-muted">No hay restaurantes disponibles</h4>
-        <p class="text-muted">Pronto tendremos más opciones para ti</p>
+        <div class="bg-white rounded-3 p-5 shadow-sm">
+          <i class="fa-solid fa-utensils text-danger mb-3" style="font-size: 4rem; opacity: 0.5;"></i>
+          <h4 class="text-muted mb-3">No hay restaurantes disponibles</h4>
+          <p class="text-muted mb-4">
+            {% if query %}
+              No encontramos resultados para "<strong>{{ query }}</strong>"
+            {% else %}
+              Pronto tendremos más opciones para ti
+            {% endif %}
+          </p>
+          {% if query %}
+          <a href="{% url 'business_list' %}" class="btn btn-outline-danger">
+            <i class="fas fa-arrow-left me-2"></i>Ver todos los restaurantes
+          </a>
+          {% endif %}
+        </div>
       </div>
       {% endfor %}
     </div>
   </div>
-
   <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-4">
-    <p>&copy; 2025 Guía de Restaurantes en Medellín - Todos los derechos reservados</p>
+  <footer class="bg-dark text-white text-center mt-5" style="padding: 3rem 0; width: 100vw; margin-left: calc(-50vw + 50%); position: relative;">
+    <div class="container-fluid px-0">
+      <!-- Redes sociales en la parte superior -->
+      <div class="row justify-content-center mb-3 mx-0">
+        <div class="col-12">
+          <div class="d-flex gap-4 justify-content-center">
+            <a href="#" class="text-light" style="font-size: 1.8rem; transition: all 0.3s ease; opacity: 0.8;">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-light" style="font-size: 1.8rem; transition: all 0.3s ease; opacity: 0.8;">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-light" style="font-size: 1.8rem; transition: all 0.3s ease; opacity: 0.8;">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" class="text-light" style="font-size: 1.8rem; transition: all 0.3s ease; opacity: 0.8;">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-light" style="font-size: 1.8rem; transition: all 0.3s ease; opacity: 0.8;">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="text-light" style="font-size: 1.8rem; transition: all 0.3s ease; opacity: 0.8;">
+              <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="#" class="text-light" style="font-size: 1.8rem; transition: all 0.3s ease; opacity: 0.8;">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Logo centrado -->
+      <div class="row justify-content-center mb-3 mx-0">
+        <div class="col-12 text-center">
+          <img src="{% static 'appdely/img/DELY.jpg' %}" alt="Logo Dely" width="80" height="80" class="mb-2 rounded-circle" style="border: 3px solid #dc3545;">
+          <h3 class="fw-bold text-danger mb-2" style="font-size: 2.5rem; letter-spacing: 2px;">Dely</h3>
+          <p class="text-light mb-3" style="font-size: 1rem; opacity: 0.8; max-width: 500px; margin: 0 auto;">
+            Descubre los mejores restaurantes de Medellín
+          </p>
+        </div>
+      </div>
+      
+      <!-- Separador -->
+      <hr class="border-light opacity-25 mx-auto" style="margin: 2rem auto 1.5rem auto; border-width: 1px; width: 80%; max-width: 600px;">
+      
+      <!-- Copyright -->
+      <div class="row justify-content-center mx-0">
+        <div class="col-12 text-center">
+          <p class="mb-0 text-light" style="opacity: 0.7; font-size: 0.9rem;">
+            Copyright &copy; 2025 Dely, Inc. | Descubre los mejores restaurantes de Medellín
+          </p>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- Script para filtros funcionales -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
+        const restaurantCards = document.querySelectorAll('.col-md-6.col-lg-4');
+        const restaurantCounter = document.querySelector('.bg-white.rounded-3.p-3.shadow-sm h4');
+        
+        function applyFilters() {
+            const activeFilters = {
+                business_type: [],
+                meal_type: [],
+                cuisine_type: []
+            };
+            
+            // Recopilar filtros activos
+            filterCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const filterType = checkbox.getAttribute('name');
+                    const filterValue = checkbox.value.toLowerCase();
+                    activeFilters[filterType].push(filterValue);
+                }
+            });
+            
+            let visibleCount = 0;
+            
+            // Aplicar filtros a cada tarjeta de restaurante
+            restaurantCards.forEach(card => {
+                let shouldShow = true;
+                
+                // Si hay filtros activos, verificar si coinciden
+                for (let filterType in activeFilters) {
+                    if (activeFilters[filterType].length > 0) {
+                        const cardContent = card.textContent.toLowerCase();
+                        const hasMatch = activeFilters[filterType].some(value => 
+                            cardContent.includes(value)
+                        );
+                        
+                        if (!hasMatch) {
+                            shouldShow = false;
+                            break;
+                        }
+                    }
+                }
+                
+                // Mostrar u ocultar la tarjeta
+                if (shouldShow) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Actualizar contador
+            if (restaurantCounter) {
+                restaurantCounter.textContent = visibleCount;
+            }
+            
+            // Mostrar mensaje si no hay resultados
+            const noResultsDiv = document.querySelector('.col-12.text-center.py-5');
+            if (visibleCount === 0 && !noResultsDiv) {
+                const container = document.querySelector('.row.g-4');
+                const noResults = document.createElement('div');
+                noResults.className = 'col-12 text-center py-5';
+                noResults.id = 'no-results-message';
+                noResults.innerHTML = `
+                    <div class="bg-white rounded-3 p-5 shadow-sm">
+                        <i class="fa-solid fa-filter text-danger mb-3" style="font-size: 4rem; opacity: 0.5;"></i>
+                        <h4 class="text-muted mb-3">No se encontraron restaurantes</h4>
+                        <p class="text-muted mb-4">
+                            Intenta cambiar los filtros seleccionados
+                        </p>
+                        <button onclick="clearAllFilters()" class="btn btn-outline-danger">
+                            <i class="fas fa-times me-2"></i>Limpiar filtros
+                        </button>
+                    </div>
+                `;
+                container.appendChild(noResults);
+            } else if (visibleCount > 0) {
+                const existingNoResults = document.getElementById('no-results-message');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+            }
+        }
+        
+        // Función para limpiar todos los filtros
+        window.clearAllFilters = function() {
+            filterCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            applyFilters();
+        };
+        
+        // Agregar event listeners a los checkboxes
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', applyFilters);
+        });
+        
+        // Aplicar filtros iniciales (en caso de que haya parámetros en la URL)
+        applyFilters();
+    });
+    </script>
 </body>
 </html>
-
