@@ -27,10 +27,10 @@ def profile(request):
     total_points = 0
     try:
         from appdely.models import Review, Point
+        from django.db.models import Sum
         user_reviews = Review.objects.filter(user=user).select_related('business').order_by('-date')[:10]
-        earned = Point.objects.filter(user=user, movement_type='earn').aggregate(models.Sum('amount'))['amount__sum'] or 0
-        redeemed = Point.objects.filter(user=user, movement_type='redeem').aggregate(models.Sum('amount'))['amount__sum'] or 0
-        total_points = earned - redeemed
+        # Sum all movements: redeem are stored as negative amounts, so net sum is the true balance
+        total_points = Point.objects.filter(user=user).aggregate(Sum('amount'))['amount__sum'] or 0
     except Exception:
         pass
     return render(request, 'accounts/profile.html', {

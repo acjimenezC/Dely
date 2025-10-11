@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Mis Canjes{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h2>Mis canjes</h2>
+    {% if redemptions %}
+      <ul class="list-group">
+        {% for r in redemptions %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{{ r.discount.title }}</strong> — {{ r.discount.business.business_name }}<br>
+              <small class="text-muted">Canjeado: {{ r.redeemed_at }}</small>
+            </div>
+            <span class="badge bg-primary rounded-pill">-{{ r.discount.points_cost }} pts</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No has realizado canjes todavía.</p>
+    {% endif %}
+  </div>
+  <div class="col-md-4">
+    <h3>Movimientos recientes</h3>
+    {% if points %}
+      <ul class="list-group">
+        {% for p in points %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              {{ p.description }}<br>
+              <small class="text-muted">{{ p.registration_date }}</small>
+            </div>
+            {% if p.amount >= 0 %}
+              <span class="badge bg-success rounded-pill">+{{ p.amount }}</span>
+            {% else %}
+              <span class="badge bg-danger rounded-pill">{{ p.amount }}</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No hay movimientos recientes.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

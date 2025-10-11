@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Confirmar canje</h2>
+  <p>Descuento: <strong>{{ discount.title }}</strong></p>
+  <p>Costo en puntos: {{ discount.points_cost }}</p>
+  <p>Tus puntos actuales: {{ total }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar canje</button>
+  <a href="{% url 'appdely:business_detail' discount.business.id %}">Cancelar</a>
+  </form>
+{% endblock %}

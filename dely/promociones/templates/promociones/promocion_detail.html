@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ promocion.titulo }} - Dely</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'promociones/css/promocion.css' %}">
+</head>
+<body>
+     <div class="container my-5">
+    <!-- Botón volver al menú principal -->
+    <div class="mb-4">
+  <a href="{% url 'appdely:business_list' %}" class="btn btn-outline-secondary" style="border-radius:30px; font-weight:600;">
+            <i class="fa-solid fa-arrow-left me-2"></i> Volver al menú principal
+        </a>
+    </div>
+    
+  <!-- Hero Section -->
+  <div class="promo-hero py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'promociones_list' %}" class="text-white">Promociones</a></li>
+              <li class="breadcrumb-item active text-white" aria-current="page">{{ promocion.titulo|truncatewords:5 }}</li>
+            </ol>
+          </nav>
+          <h1 class="display-4 fw-bold mb-3">{{ promocion.titulo }}</h1>
+          <h4 class="mb-3">
+            <i class="fas fa-store me-2"></i>{{ promocion.restaurante.business_name }}
+          </h4>
+          <div class="d-flex gap-3">
+            {% if esta_activa %}
+              <span class="badge bg-success status-badge">
+                <i class="fas fa-check-circle me-1"></i>Promoción Activa
+              </span>
+            {% else %}
+              <span class="badge bg-warning status-badge">
+                <i class="fas fa-exclamation-triangle me-1"></i>Promoción Expirada
+              </span>
+            {% endif %}
+            
+            {% if tiempo_restante > 0 %}
+              <span class="badge bg-info status-badge">
+                <i class="fas fa-clock me-1"></i>{{ tiempo_restante }} día{{ tiempo_restante|pluralize }} restante{{ tiempo_restante|pluralize }}
+              </span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-4 text-center">
+          {% if descuento_calculado %}
+          <div class="bg-white text-danger rounded-3 p-4">
+            <h1 class="display-3 fw-bold mb-0">{{ descuento_calculado|floatformat:0 }}%</h1>
+            <h5>DE DESCUENTO</h5>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-5">
+    <div class="row">
+      <!-- Contenido Principal -->
+      <div class="col-lg-8">
+        <!-- Imagen Principal -->
+        {% if promocion.imagen_principal %}
+        <img src="{{ promocion.imagen_principal }}" 
+             class="img-fluid promo-image mb-4 w-100" 
+             alt="{{ promocion.titulo }}"
+             style="height: 400px; object-fit: cover;"
+             onerror="this.src='https://via.placeholder.com/800x400/dc3545/ffffff?text={{ promocion.titulo|urlencode }}';">
+        {% endif %}
+
+        <!-- Descripción -->
+        <div class="bg-white rounded-3 p-4 mb-4 shadow-sm">
+          <h3 class="fw-bold mb-3">Descripción de la Promoción</h3>
+          <p class="lead">{{ promocion.descripcion|linebreaks }}</p>
+        </div>
+
+        <!-- Precios -->
+        {% if promocion.precio_original and promocion.precio_promocional %}
+        <div class="bg-light rounded-3 p-4 mb-4">
+          <h4 class="fw-bold mb-3">Precios</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="text-center p-3 bg-white rounded">
+                <h6 class="text-muted">Precio Normal</h6>
+                <h3 class="text-decoration-line-through text-muted">${{ promocion.precio_original }}</h3>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="text-center p-3 bg-danger text-white rounded">
+                <h6>Precio Promocional</h6>
+                <h3 class="fw-bold">${{ promocion.precio_promocional }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Términos y Condiciones -->
+        {% if promocion.terminos_condiciones %}
+        <div class="bg-white rounded-3 p-4 mb-4 shadow-sm">
+          <h4 class="fw-bold mb-3">Términos y Condiciones</h4>
+          <p>{{ promocion.terminos_condiciones|linebreaks }}</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <!-- Información del Restaurante -->
+        <div class="bg-white rounded-3 p-4 mb-4 shadow-sm">
+          <h5 class="fw-bold mb-3">Información del Restaurante</h5>
+          <h6 class="text-danger">{{ promocion.restaurante.business_name }}</h6>
+          <p class="text-muted mb-3">{{ promocion.restaurante.description|truncatewords:20 }}</p>
+          <p class="mb-2">
+            <i class="fas fa-map-marker-alt text-danger me-2"></i>
+            {{ promocion.restaurante.address }}
+          </p>
+          <a href="{% url 'appdely:business_detail' promocion.restaurante.id %}" class="btn btn-outline-danger btn-sm">
+            Ver Restaurante <i class="fas fa-external-link-alt ms-1"></i>
+          </a>
+        </div>
+
+        <!-- Detalles de la Promoción -->
+        <div class="bg-white rounded-3 p-4 mb-4 shadow-sm">
+          <h5 class="fw-bold mb-3">Detalles</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <i class="fas fa-tag text-danger me-2"></i>
+              <strong>Tipo:</strong> {{ promocion.tipo_promocion.nombre }}
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-calendar-alt text-danger me-2"></i>
+              <strong>Válida desde:</strong> {{ promocion.fecha_inicio }}
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-calendar-times text-danger me-2"></i>
+              <strong>Válida hasta:</strong> {{ promocion.fecha_fin }}
+            </li>
+            {% if promocion.hora_inicio and promocion.hora_fin %}
+            <li class="mb-2">
+              <i class="fas fa-clock text-danger me-2"></i>
+              <strong>Horario:</strong> {{ promocion.hora_inicio }} - {{ promocion.hora_fin }}
+            </li>
+            {% endif %}
+            {% if promocion.limite_personas %}
+            <li class="mb-2">
+              <i class="fas fa-users text-danger me-2"></i>
+              <strong>Límite:</strong> {{ promocion.limite_personas }} personas
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="bg-light rounded-3 p-4 mb-4">
+          <h6 class="fw-bold mb-3">Estadísticas</h6>
+          <div class="row text-center">
+            <div class="col-6">
+              <h4 class="text-danger">{{ promocion.vistas }}</h4>
+              <small class="text-muted">Vistas</small>
+            </div>
+            <div class="col-6">
+              <h4 class="text-danger">{{ promocion.usos_actuales }}</h4>
+              <small class="text-muted">Usos</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Promociones Relacionadas -->
+    {% if promociones_relacionadas %}
+    <div class="mt-5">
+      <h3 class="fw-bold mb-4">Más Promociones de {{ promocion.restaurante.business_name }}</h3>
+      <div class="row g-3">
+        {% for promo in promociones_relacionadas %}
+        <div class="col-md-4">
+          <div class="card related-card h-100">
+            <img src="{{ promo.imagen_principal|default:'https://via.placeholder.com/300x150/dc3545/ffffff?text=Promoción' }}" 
+                 class="card-img-top" style="height: 150px; object-fit: cover;" alt="{{ promo.titulo }}">
+            <div class="card-body">
+              <h6 class="card-title">{{ promo.titulo }}</h6>
+              <p class="card-text small text-muted">{{ promo.descripcion_corta|truncatewords:10 }}</p>
+              <a href="{% url 'promocion_detail' promo.pk %}" class="btn btn-outline-danger btn-sm">Ver Detalles</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

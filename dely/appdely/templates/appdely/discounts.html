@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Descuentos en {{ business.business_name }}</h2>
+  {% if discounts %}
+    <ul>
+      {% for d in discounts %}
+        <li>
+          <strong>{{ d.title }}</strong> - {{ d.points_cost }} puntos<br>
+          <small>{{ d.description }}</small><br>
+          {% if user.is_authenticated %}
+            <form method="post" action="{% url 'appdely:redeem_discount' d.id %}">
+              {% csrf_token %}
+              <button type="submit">Canjear</button>
+            </form>
+          {% else %}
+            <a href="{% url 'login' %}">Inicia sesión para canjear</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No hay descuentos disponibles.</p>
+  {% endif %}
+{% endblock %}

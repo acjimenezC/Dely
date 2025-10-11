@@ -57,6 +57,7 @@
         // Estrellas interactivas
         const stars = document.querySelectorAll('#rating-stars i');
         const ratingInput = document.getElementById('rating-input');
+        const reviewForm = document.getElementById('review-form');
 
         stars.forEach(star => {
             star.addEventListener('click', function () {
@@ -72,6 +73,8 @@
                 }
             });
         });
+
+        // No client-side submit handler here; keep star UI only (form submits to current URL)
     </script>
 </body>
 </html>

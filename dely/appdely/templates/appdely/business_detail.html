@@ -13,7 +13,7 @@
     <div class="container my-5">
         <!-- Botón volver al menú principal -->
         <div class="mb-4">
-            <a href="{% url 'business_list' %}" class="btn btn-outline-secondary" style="border-radius:30px; font-weight:600;">
+            <a href="{% url 'appdely:business_list' %}" class="btn btn-outline-secondary" style="border-radius:30px; font-weight:600;">
                 <i class="fa-solid fa-arrow-left me-2"></i> Volver al menú principal
             </a>
         </div>
@@ -71,9 +71,22 @@
 
         <!-- Botón reseña -->
         <div class="mb-4">
-            <a href="{% url 'add_review' business.id %}" class="btn btn-danger w-100" style="border-radius:30px; font-weight:600; font-size:1rem;">
+            <a href="{% url 'appdely:add_review' business.id %}" class="btn btn-danger w-100" style="border-radius:30px; font-weight:600; font-size:1rem;">
                 <i class="fa-solid fa-pen-to-square me-2"></i>Deja tu reseña
             </a>
+        </div>
+
+        <!-- Enlace a descuentos y puntos del usuario -->
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+            <a href="{% url 'appdely:discounts_list' business.id %}" class="btn btn-outline-success" style="border-radius:30px; font-weight:600;">
+                <i class="fa-solid fa-ticket-simple me-2"></i>Ver descuentos
+            </a>
+            {% if user.is_authenticated %}
+                <div class="text-end">
+                    <small class="text-muted">Tus puntos:</small>
+                    <div class="fw-bold">{{ user.points_total }}</div>
+                </div>
+            {% endif %}
         </div>
 
         <!-- Reseñas -->
