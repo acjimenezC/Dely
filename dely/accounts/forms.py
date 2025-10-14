@@ -1,7 +1,15 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from .models import User
+from .models import User, Profile
+
+
+class ProfileImageForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
+
+    image = forms.ImageField(required=False)
 
 
 class RegisterForm(forms.ModelForm):

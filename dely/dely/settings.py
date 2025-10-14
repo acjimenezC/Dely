@@ -126,6 +126,13 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+# Media files (user uploaded)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Note: Pillow is required to handle ImageField uploads. Install in your venv:
+# pip install Pillow
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

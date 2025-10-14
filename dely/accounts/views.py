@@ -4,6 +4,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import models
 from .forms import RegisterForm
+from .forms import ProfileImageForm
+
 
 def register(request):
     from django.contrib import messages
@@ -33,8 +35,31 @@ def profile(request):
         total_points = earned - redeemed
     except Exception:
         pass
+    # handle profile image upload
+    profile = getattr(user, 'profile', None)
+    if request.method == 'POST':
+        # handle delete first
+        if request.POST.get('remove_image') and profile and profile.image:
+            try:
+                # remove file from storage
+                profile.image.delete(save=False)
+            except Exception:
+                pass
+            profile.image = None
+            profile.save()
+            return redirect('profile')
+
+        form = ProfileImageForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileImageForm(instance=profile)
+
     return render(request, 'accounts/profile.html', {
         'user': user,
         'user_reviews': user_reviews,
-        'total_points': total_points
+        'total_points': total_points,
+        'profile': profile,
+        'form': form,
     })
