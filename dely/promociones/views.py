@@ -3,6 +3,12 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils import timezone
 from .models import Promocion, NoticiaRestaurante, TipoPromocion
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from appdely.models import Point
+from django.contrib import messages
+from django.db import models
+from django.templatetags.static import static
 
 
 def promociones_list(request):
@@ -181,4 +187,72 @@ def promociones_noticias(request):
     }
     
     return render(request, 'promociones/promociones_noticias.html', context)
+
+
+@login_required
+def descuentos_list(request):
+    """Muestra opciones de descuento que el usuario puede redimir."""
+    # Opciones estáticas (2-3). Pueden ampliarse a modelos si se desea.
+    opciones = [
+        {'id': 1, 'title': '5% OFF - Código A', 'cost': 5},
+        {'id': 2, 'title': '10% OFF - Código B', 'cost': 10},
+        {'id': 3, 'title': 'Envío gratis - Código C', 'cost': 15},
+    ]
+
+    # Calcular puntos acumulados del usuario
+    puntos = Point.objects.filter(user=request.user).aggregate(total=models.Sum('amount'))['total'] or 0
+
+    return render(request, 'promociones/descuentos_list.html', {'opciones': opciones, 'puntos': puntos})
+
+
+@login_required
+def descuento_qr(request, opcion_id):
+    """Redime un descuento (resta 5 puntos) y muestra el QR si hay suficientes puntos."""
+    try:
+        opcion_id = int(opcion_id)
+    except Exception:
+        messages.error(request, 'Opción inválida.')
+        return redirect('promociones_list')
+
+    # Verificar puntos
+    puntos = Point.objects.filter(user=request.user).aggregate(total=models.Sum('amount'))['total'] or 0
+    # Buscar la opción y su coste
+    opciones_map = {o['id']: o for o in [
+        {'id': 1, 'title': '5% OFF - Código A', 'cost': 5},
+        {'id': 2, 'title': '10% OFF - Código B', 'cost': 10},
+        {'id': 3, 'title': 'Envío gratis - Código C', 'cost': 15},
+    ]}
+
+    opcion = opciones_map.get(opcion_id)
+    if not opcion:
+        messages.error(request, 'Opción de descuento no encontrada.')
+        return redirect('descuentos_list')
+
+    cost = opcion['cost']
+    if puntos < cost:
+        messages.error(request, 'No tienes suficientes puntos para redimir este descuento.')
+        return redirect('descuentos_list')
+
+    # Registrar movimiento de -cost puntos
+    Point.objects.create(
+        user=request.user,
+        amount=-cost,
+        description=f'Redención descuento opción {opcion_id} ({opcion["title"]})',
+        movement_type='redeem'
+    )
+
+    # Mostrar plantilla con el QR (el QR debe colocarse en static/promociones/img/qr.png o ruta similar)
+    # Construimos la URL estática con la utilidad de Django para evitar problemas de ruta
+    qr_url = static('promociones/img/qr.png')
+    return render(request, 'promociones/descuento_qr.html', {'qr_url': qr_url})
+
+
+@login_required
+def historial_canje(request):
+    """Muestra el historial de redenciones del usuario"""
+    try:
+        redenciones = Point.objects.filter(user=request.user, movement_type='redeem').order_by('-registration_date')
+    except Exception:
+        redenciones = []
+    return render(request, 'promociones/historial_canje.html', {'redenciones': redenciones})
 

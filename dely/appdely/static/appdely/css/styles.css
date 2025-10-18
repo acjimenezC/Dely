@@ -85,6 +85,15 @@ footer {
 .navbar .navbar-brand img {
   margin-right: 0.5rem;
 }
+
+/* Small circular avatar used in navbar when user is logged in */
+.nav-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(0,0,0,0.06);
+}
 @media (max-width: 991px) {
   .navbar .navbar-nav {
     flex-direction: column !important;

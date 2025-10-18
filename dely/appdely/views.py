@@ -27,6 +27,7 @@ from .models import Business, Review
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.db import models
 
 User = get_user_model()
 
@@ -45,9 +46,23 @@ def business_list(request):
 def business_detail(request, business_id):
     business = get_object_or_404(Business, id=business_id)
     reviews = Review.objects.filter(business=business).order_by('-date')
+    # Opciones de descuento (puedes ampliar)
+    descuentos = [
+        {'id': 1, 'title': '5% OFF', 'cost': 5},
+        {'id': 2, 'title': '10% OFF', 'cost': 10},
+        {'id': 3, 'title': 'Envío gratis', 'cost': 15},
+    ]
+
+    puntos = 0
+    if request.user.is_authenticated:
+        from appdely.models import Point
+        puntos = Point.objects.filter(user=request.user).aggregate(total=models.Sum('amount'))['total'] or 0
+
     return render(request, 'appdely/business_detail.html', {
         'business': business,
-        'reviews': reviews
+        'reviews': reviews,
+        'descuentos': descuentos,
+        'puntos': puntos
     })
 
 
@@ -68,6 +83,18 @@ def add_review(request, business_id):
             comment=comment,
             reports=0  # Por defecto
         )
+        # Otorgar 10 puntos por crear una reseña
+        try:
+            from .models import Point
+            Point.objects.create(
+                user=user,
+                amount=10,
+                description='Reseña',
+                movement_type='earn'
+            )
+        except Exception:
+            # No bloquear la creación de la reseña si algo falla con puntos
+            pass
         return redirect('business_detail', business_id=business_id)
 
     # Get recent reviews for this business

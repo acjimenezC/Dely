@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Descuentos{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'promociones/css/descuentos.css' %}">
+<div class="discounts-container">
+  <div class="header">
+    <h2>Descuentos disponibles</h2>
+    <div class="points">Tus puntos: <span>{{ puntos }}</span></div>
+  </div>
+
+  <div class="cards">
+    {% for opt in opciones %}
+    <div class="card discount-card">
+      <div class="card-body">
+        <h5 class="card-title">{{ opt.title }}</h5>
+        <p class="card-text">Coste: <strong>{{ opt.cost }} pts</strong></p>
+        <div class="actions">
+          {% if puntos >= opt.cost %}
+            <form method="post" action="{% url 'descuento_qr' opt.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success">Redimir</button>
+            </form>
+          {% else %}
+            <button class="btn btn-outline-secondary" disabled>No tienes suficientes puntos</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

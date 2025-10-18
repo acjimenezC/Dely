@@ -1,4 +1,4 @@
-body {
+.body {
   background: #fafbfc;
   font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
 }
@@ -58,4 +58,261 @@ body {
   font-size: 1.1rem;
   color: #a94442;
   font-weight: 500;
+}
+
+.avatar-wrap {
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+.avatar.placeholder {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 28px;
+  color: #dc3545;
+  background: #fff5f5;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+/* Style file input rendered by Django form widget */
+form input[type=file] {
+  width: 180px;
+}
+
+@media (max-width: 640px) {
+  .avatar-wrap { width: 72px; height:72px }
+  .avatar, .avatar.placeholder { width:72px; height:72px }
+  form input[type=file] { width: 130px }
+}
+
+/* Centered profile recuadro */
+.profile-top .profile-avatar {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f4f4f6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.profile-top .profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ensure image fills the recuadro and is cropped */
+  display:block;
+}
+
+.profile-top .svg-icon {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  opacity: 0.95;
+}
+
+.profile-placeholder { display:none }
+
+/* Hide default file input visually but keep it accessible */
+input.hidden-file-input[type=file] {
+  position: absolute;
+  left: -9999px;
+}
+
+label[for="id_profile_image"] {
+  cursor: pointer;
+}
+/* Strong overrides to ensure containment and circular shape */
+#avatar-upload-form input[type=file] {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.profile-avatar {
+  width: 120px !important;
+  height: 120px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  border: 5px solid #dc3545 !important; /* red ring like screenshot */
+  box-sizing: border-box !important;
+}
+
+.profile-avatar > img.profile-img {
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 50% !important;
+}
+
+.profile-avatar > img.svg-icon {
+  width: 60% !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+/* ensure no larger images overflow elsewhere */
+.profile-avatar img { max-width: none !important; }
+
+/* Final safety rules to absolutely prevent overflow */
+.profile-avatar {
+  flex: 0 0 auto !important;
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.profile-avatar > img.profile-img {
+  width: 120px !important;
+  height: 120px !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  display: block !important;
+}
+/* file actions styles (small) */
+.file-actions { align-items:center }
+.file-label-btn { padding:.35rem .6rem; border-radius:8px }
+
+@media (max-width:720px){
+  .profile-top { flex-direction: column; align-items:center }
+  .user-info { text-align:center }
+  .points-card { margin-top:12px }
+  .actions { justify-content:center }
+}
+
+.avatar-wrap {
+  width: 84px; /* fixed box size */
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px; /* recuadro con esquinas redondeadas */
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover; /* crop to fill the box */
+}
+
+.avatar.placeholder {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 26px;
+  color: #dc3545;
+  background: linear-gradient(180deg,#fff5f5,#fff8f8);
+}
+
+/* Hide default file input and use a label as a button */
+input[type=file].hidden-file-input {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.file-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.file-label-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  padding: .45rem .75rem;
+  min-width: 68px;
+  border-radius: .4rem;
+  background: #dc3545 !important;
+  color: #fff !important;
+  font-size: .85rem;
+  font-weight: 600;
+  border: 1px solid #c1323e !important;
+  box-shadow: 0 6px 12px rgba(220,53,69,0.12);
+}
+
+.file-label-btn:hover {
+  background: #c12a3a !important;
+  border-color: #a8232f !important;
+}
+
+.btn-upload, button.btn-upload, input[type=submit].btn-upload {
+  background: #dc3545 !important; /* force site's red */
+  color: #fff !important;
+  border: 1px solid #c1323e !important;
+  padding: .45rem .75rem !important;
+  border-radius: .4rem !important;
+  font-weight: 600 !important;
+}
+
+button.btn-upload:hover, input[type=submit].btn-upload:hover, .btn-upload:hover {
+  background: #c12a3a !important;
+  border-color: #a8232f !important;
+}
+
+.file-name {
+  font-size: .85rem;
+  color: #6c757d;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Clear/remove image button */
+.file-clear-btn {
+  background: transparent;
+  color: #6c757d;
+  border: 1px dashed rgba(0,0,0,0.12);
+  padding: .35rem .6rem;
+  border-radius: .35rem;
+}
+.file-clear-btn[disabled] {
+  opacity: 0.6;
+}
+
+/* hide default file URL anchor inside the avatar upload form if present */
+#avatar-upload-form a { display: none !important; }
+
+@media (max-width: 640px) {
+  .avatar-wrap { width: 72px; height:72px }
+  .avatar.placeholder { font-size: 20px }
+  .file-name { max-width: 120px }
 }

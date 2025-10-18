@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tu descuento{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'promociones/css/descuentos.css' %}">
+<div class="qr-box text-center">
+	<h2>Descuento canjeado</h2>
+	<p>Muestra este código en el comercio para recibir tu descuento.</p>
+	<div class="qr-image">
+		<img src="{{ qr_url }}" alt="QR de descuento" />
+	</div>
+	<div class="mt-3">
+		<a href="{% url 'descuentos_list' %}" class="btn btn-primary">Volver a descuentos</a>
+	</div>
+</div>
+{% endblock %}

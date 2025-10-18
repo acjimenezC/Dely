@@ -12,4 +12,8 @@ urlpatterns = [
     
     # Vista combinada (promociones + noticias)
     path('todas/', views.promociones_noticias, name='promociones_noticias'),
+    # Descuentos
+    path('descuentos/', views.descuentos_list, name='descuentos_list'),
+    path('descuentos/<int:opcion_id>/qr/', views.descuento_qr, name='descuento_qr'),
+    path('historial/', views.historial_canje, name='historial_canje'),
 ]

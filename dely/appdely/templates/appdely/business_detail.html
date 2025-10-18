@@ -98,6 +98,27 @@
             </a>
         </div>
 
+        <!-- Descuentos -->
+        <div class="mb-4">
+            <h4 class="mb-3">Descuentos disponibles</h4>
+            <p><strong>Tus puntos:</strong> {{ puntos }}</p>
+            <ul class="list-group mb-3">
+                {% for d in descuentos %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ d.title }} <span class="badge bg-info text-dark ms-2">{{ d.cost }} pts</span></span>
+                    {% if puntos >= d.cost %}
+                        <form method="post" action="{% url 'descuento_qr' d.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Redimir</button>
+                        </form>
+                    {% else %}
+                        <button class="btn btn-secondary btn-sm" disabled>No tienes puntos</button>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
         <!-- Reseñas -->
         <div id="reviews-list">
             <h4 class="mb-3">Reseñas recientes</h4>

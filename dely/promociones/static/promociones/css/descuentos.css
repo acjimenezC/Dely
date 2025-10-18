@@ -1,0 +1,51 @@
+/* Styles for discounts and history */
+.discounts-container, .history-box, .qr-box {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.header .points {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.discount-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+.discount-card .card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.discount-card .actions {
+  margin-top: auto;
+}
+.qr-box .qr-image img {
+  max-width: 320px;
+  border: 8px solid #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.history-box .list-group-item {
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  background: #fff;
+}
+.history-box .amount {
+  font-weight: 700;
+}
+
+@media (max-width: 576px) {
+  .header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Historial de canjes{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'promociones/css/descuentos.css' %}">
+<div class="history-box">
+  <h2>Historial de canjes</h2>
+  {% if redenciones %}
+  <div class="list-group">
+    {% for r in redenciones %}
+    <div class="list-group-item d-flex justify-content-between align-items-start">
+      <div>
+        <div class="fw-bold">{{ r.description }}</div>
+        <div class="small text-muted">{{ r.registration_date|date:"d/m/Y H:i" }}</div>
+      </div>
+      <div class="amount text-danger">{{ r.amount }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p class="text-muted">No tienes redenciones registradas.</p>
+  {% endif %}
+</div>
+{% endblock %}

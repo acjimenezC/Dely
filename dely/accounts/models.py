@@ -11,3 +11,7 @@ class UserType(models.Model):
 
 class User(AbstractUser):
     user_type = models.ForeignKey(UserType, on_delete=models.SET_NULL, null=True, blank=True)
+    # optional profile image stored in MEDIA_ROOT/profiles/
+    profile_image = models.ImageField(upload_to='profiles/', null=True, blank=True)
+    # Profile image for the user. Optional; stored in MEDIA_ROOT/profiles/
+    profile_image = models.ImageField(upload_to='profiles/', null=True, blank=True)
