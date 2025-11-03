@@ -9,6 +9,9 @@ from appdely.models import Point
 from django.contrib import messages
 from django.db import models
 from django.templatetags.static import static
+from django.conf import settings
+from django.core.mail import send_mail, EmailMessage
+from .forms import SubscriptionForm, BusinessRegistrationForm
 
 
 def promociones_list(request):
@@ -26,6 +29,11 @@ def promociones_list(request):
     if restaurante_filtro:
         promociones = promociones.filter(restaurante__business_name__icontains=restaurante_filtro)
     
+    # Filtro por ubicación (dirección del restaurante)
+    ubicacion_filtro = request.GET.get('ubicacion')
+    if ubicacion_filtro:
+        promociones = promociones.filter(restaurante__address__icontains=ubicacion_filtro)
+    
     # Ordenar por fecha de creación
     promociones = promociones.order_by('-creada_en')
     
@@ -37,11 +45,16 @@ def promociones_list(request):
     # Obtener tipos de promoción para el filtro
     tipos_promocion = TipoPromocion.objects.all()
     
+    # Obtener ubicaciones únicas para el filtro
+    ubicaciones = Promocion.objects.filter(activa=True).values_list('restaurante__address', flat=True).distinct().order_by('restaurante__address')
+    
     context = {
         'promociones': page_obj,
         'tipos_promocion': tipos_promocion,
+        'ubicaciones': ubicaciones,
         'tipo_seleccionado': tipo_filtro,
         'restaurante_busqueda': restaurante_filtro,
+        'ubicacion_seleccionada': ubicacion_filtro,
     }
     
     return render(request, 'promociones/promociones_list.html', context)
@@ -189,6 +202,76 @@ def promociones_noticias(request):
     return render(request, 'promociones/promociones_noticias.html', context)
 
 
+def subscribe(request):
+    """Permite a un usuario suscribirse con su email. Guarda el email y envía confirmación."""
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            subscriber, created = form.save(commit=False), False
+            # evitar crear duplicados
+            email = form.cleaned_data['email']
+            from .models import Subscriber
+            subscriber_obj, created = Subscriber.objects.get_or_create(email=email)
+
+            # Enviar correo a Dely informando nuevo suscriptor (y opcional confirmación al usuario)
+            subject = 'Nuevo suscriptor - Dely'
+            body = f'Nueva suscripción: {email}\nFuente: promociones_noticias'
+            recipient = getattr(settings, 'DELY_CONTACT_EMAIL', None)
+            if recipient:
+                try:
+                    send_mail(subject, body, getattr(settings, 'DEFAULT_FROM_EMAIL', None), [recipient])
+                except Exception:
+                    # no bloquear la UX si falla el envío
+                    pass
+
+            # enviar correo de confirmación al suscriptor si se desea
+            try:
+                confirmation_subject = 'Gracias por suscribirte a Dely'
+                confirmation_body = 'Gracias por suscribirte. Te enviaremos novedades y promociones.'
+                send_mail(confirmation_subject, confirmation_body, getattr(settings, 'DEFAULT_FROM_EMAIL', None), [email])
+            except Exception:
+                pass
+
+            messages.success(request, 'Gracias por suscribirte. Revisa tu correo para confirmar.')
+            return redirect('promociones_noticias')
+    else:
+        form = SubscriptionForm()
+    return render(request, 'promociones/subscribe.html', {'form': form})
+
+
+def register_business(request):
+    """Formulario para que un negocio se registre y esto envíe los datos al correo de Dely."""
+    if request.method == 'POST':
+        form = BusinessRegistrationForm(request.POST)
+        if form.is_valid():
+            br = form.save()
+            # Construir mensaje
+            subject = f'Nuevo registro de negocio: {br.business_name}'
+            body_lines = [
+                f'Nombre del negocio: {br.business_name}',
+                f'Nombre de contacto: {br.contact_name}',
+                f'Email de contacto: {br.contact_email}',
+                f'Teléfono: {br.phone}',
+                f'Dirección: {br.address}',
+                '\nDescripción:\n',
+                br.description or '',
+            ]
+            body = '\n'.join(body_lines)
+
+            recipient = getattr(settings, 'DELY_CONTACT_EMAIL', None)
+            if recipient:
+                try:
+                    send_mail(subject, body, getattr(settings, 'DEFAULT_FROM_EMAIL', None), [recipient])
+                except Exception:
+                    pass
+
+            messages.success(request, 'Gracias. Tu registro ha sido enviado. Nos pondremos en contacto.')
+            return redirect('promociones_noticias')
+    else:
+        form = BusinessRegistrationForm()
+    return render(request, 'promociones/register_business.html', {'form': form})
+
+
 @login_required
 def descuentos_list(request):
     """Muestra opciones de descuento que el usuario puede redimir."""
@@ -249,10 +332,19 @@ def descuento_qr(request, opcion_id):
 
 @login_required
 def historial_canje(request):
-    """Muestra el historial de redenciones del usuario"""
+    """Muestra el historial de redenciones del usuario con estadísticas"""
     try:
         redenciones = Point.objects.filter(user=request.user, movement_type='redeem').order_by('-registration_date')
+        # Calcular total de puntos gastados (los puntos se guardan como negativos, por eso usamos abs)
+        total_puntos = sum(abs(int(r.amount)) for r in redenciones)
     except Exception:
         redenciones = []
-    return render(request, 'promociones/historial_canje.html', {'redenciones': redenciones})
+        total_puntos = 0
+    
+    context = {
+        'redenciones': redenciones,
+        'total_puntos': total_puntos,
+        'total_canjes': len(redenciones),
+    }
+    return render(request, 'promociones/historial_canje.html', context)
 

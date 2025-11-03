@@ -1,0 +1,53 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registrar Restaurante - Dely</title>
+    <link rel="stylesheet" href="{% static 'promociones/css/register.css' %}">
+  </head>
+  <body>
+    <div class="container-form">
+      <div class="logo-header">
+        <img src="{% static 'appdely/img/DELY.jpg' %}" alt="Logo Dely">
+      </div>
+
+      <div class="form-header">
+        <h2>Registrar tu negocio</h2>
+        <p>Completa el formulario y nuestro equipo te contactará pronto.</p>
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="non-field-errors">
+          {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        
+        {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <div class="errorlist">
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-submit">Enviar registro</button>
+          <a href="{% url 'promociones_noticias' %}" class="btn btn-back">Volver</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

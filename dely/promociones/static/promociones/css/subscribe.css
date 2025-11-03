@@ -1,0 +1,31 @@
+/* Estilos para el formulario de suscripción - Dely */
+
+/* Reutiliza los estilos de register.css */
+@import url('register.css');
+
+/* Estilos específicos para suscripción (opcional) */
+.form-header-subscribe {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-header-subscribe h2 {
+  color: #dc3545;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.form-header-subscribe p {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Icono opcional */
+.icon-bell {
+  font-size: 48px;
+  color: #dc3545;
+  margin-bottom: 15px;
+  display: block;
+}

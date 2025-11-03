@@ -1,0 +1,214 @@
+/* Historial de Canje - Dinámico y Elegante */
+
+.history-container {
+  background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+  min-height: 100vh;
+  padding: 30px 0;
+}
+
+.history-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
+.history-header h1 {
+  color: #dc3545;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  animation: slideDown 0.5s ease-out;
+}
+
+.history-header p {
+  color: #666;
+  font-size: 15px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card para cada canje */
+.history-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.08);
+  border-left: 4px solid #dc3545;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.history-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.15);
+}
+
+.history-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-card-info h3 {
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.history-card-info p {
+  color: #999;
+  font-size: 13px;
+  margin: 0;
+}
+
+.history-card-amount {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Empty State */
+.history-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.history-empty i {
+  font-size: 64px;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+.history-empty h3 {
+  color: #666;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.history-empty p {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.history-empty a {
+  display: inline-block;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.history-empty a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Stats Section */
+.history-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.08);
+}
+
+.stat-card h4 {
+  color: #999;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.stat-card p {
+  color: #dc3545;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Navbar en historial */
+.history-navbar {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 15px 0;
+}
+
+.history-navbar a {
+  color: #dc3545;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.history-navbar a:hover {
+  color: #c82333;
+  transform: translateX(-4px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .history-header h1 {
+    font-size: 24px;
+  }
+
+  .history-card-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .history-card-amount {
+    width: 100%;
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  .history-stats {
+    grid-template-columns: 1fr;
+  }
+}

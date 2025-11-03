@@ -1,167 +1,169 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Promociones - Dely</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'promociones/css/promocion.css' %}">
-</head>
-<body>
-    <div class="container my-5">
-    <!-- Botones de navegación -->
-    <div class="mb-4 d-flex gap-3 flex-wrap">
-        <a href="{% url 'business_list' %}" class="btn btn-outline-secondary" style="border-radius:30px; font-weight:600;">
-            <i class="fa-solid fa-arrow-left me-2"></i> Volver al menú principal
-        </a>
-        <a href="{% url 'noticias_list' %}" class="btn btn-outline-secondary" style="border-radius:30px; font-weight:600;">
-            <i class="fa-solid fa-arrow-left me-2"></i> Lista de Noticias
-        </a>
-        <a href="{% url 'promociones_noticias' %}" class="btn btn-outline-secondary" style="border-radius:30px; font-weight:600;">
-            <i class="fa-solid fa-tags me-2"></i> Ver Todo
-        </a>
-    </div>
+
+{% block title %}Promociones{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'promociones/css/promocion.css' %}">
+
+<div class="container py-5" style="padding-top: 120px;">
   <!-- Header -->
-  <div class="bg-danger text-white py-5">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-8">
-          <h1 class="display-4 fw-bold">Promociones Especiales</h1>
-          <p class="lead">Descubre las mejores ofertas de restaurantes en Medellín</p>
-        </div>
-        <div class="col-md-4 text-center">
-          <div class="bg-white text-danger rounded-3 p-3">
-            <h3 class="fw-bold mb-0">{{ total_promociones_activas }}</h3>
-            <small>Promociones Activas</small>
-          </div>
+  <div class="mb-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <h1 class="display-5 fw-bold text-danger mb-2">
+          <i class="fas fa-tags me-2"></i>Promociones Especiales
+        </h1>
+        <p class="lead text-muted">Descubre las mejores ofertas de restaurantes en Medellín</p>
+      </div>
+      <div class="col-lg-4">
+        <div class="bg-white rounded-3 p-4 shadow-sm border border-danger border-opacity-25 text-center">
+          <small class="text-muted d-block">Promociones Activas</small>
+          <h3 class="fw-bold text-danger mb-0">{{ total_promociones_activas }}</h3>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="container my-5">
-    <!-- Filtros -->
-    <div class="filter-section p-4 mb-4">
-      <form method="GET" class="row g-3 align-items-end">
-        <div class="col-md-4">
-          <label class="form-label fw-bold">Tipo de Promoción</label>
-          <select name="tipo" class="form-select">
-            <option value="">Todos los tipos</option>
-            {% for tipo in tipos_promocion %}
-              <option value="{{ tipo.id }}" {% if tipo.id == tipo_seleccionado|add:0 %}selected{% endif %}>
-                {{ tipo.nombre }}
-              </option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label fw-bold">Buscar Restaurante</label>
-          <input type="text" name="restaurante" class="form-control" 
-                 placeholder="Nombre del restaurante" value="{{ restaurante_busqueda }}">
-        </div>
-        <div class="col-md-4">
-          <button type="submit" class="btn btn-danger w-100">
-            <i class="fas fa-search me-2"></i>Filtrar
-          </button>
-        </div>
-      </form>
-    </div>
+  <!-- Filtros -->
+  <div class="bg-light rounded-3 p-4 mb-5 shadow-sm" style="border: 1px solid #e0e0e0;">
+    <form method="GET" class="row g-3 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label fw-bold text-dark">Tipo de Promoción</label>
+        <select name="tipo" class="form-select" style="border-radius: 8px;">
+          <option value="">Todos los tipos</option>
+          {% for tipo in tipos_promocion %}
+            <option value="{{ tipo.id }}" {% if tipo.id == tipo_seleccionado|add:0 %}selected{% endif %}>
+              {{ tipo.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-bold text-dark">Buscar Restaurante</label>
+        <input type="text" name="restaurante" class="form-control" 
+               placeholder="Nombre del restaurante" value="{{ restaurante_busqueda }}"
+               style="border-radius: 8px;">
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-danger w-100 fw-bold" style="border-radius: 8px; padding: 10px;">
+          <i class="fas fa-search me-2"></i>Filtrar
+        </button>
+      </div>
+    </form>
+  </div>
 
-    <!-- Lista de Promociones -->
-    <div class="row g-4">
-      {% for promocion in promociones %}
-      <div class="col-md-6 col-lg-4">
-        <div class="card promo-card h-100">
-          <div class="position-relative">
-            <img src="{{ promocion.imagen_principal|default:'https://via.placeholder.com/400x200/dc3545/ffffff?text=Promoción' }}" 
-                 class="card-img-top promo-image" 
-                 alt="{{ promocion.titulo }}"
-                 onerror="this.src='https://via.placeholder.com/400x200/dc3545/ffffff?text={{ promocion.titulo|urlencode }}';">
-            
-            {% if promocion.calcular_descuento %}
-            <div class="discount-badge">
-              -{{ promocion.calcular_descuento|floatformat:0 }}%
-            </div>
-            {% endif %}
-            
-            {% if promocion.tiempo_restante <= 3 and promocion.tiempo_restante > 0 %}
-            <div class="time-badge">
-              <i class="fas fa-clock me-1"></i>
-              {{ promocion.tiempo_restante }} día{{ promocion.tiempo_restante|pluralize }}
-            </div>
-            {% endif %}
-          </div>
+  <!-- Grid de Promociones -->
+  <div class="row g-4">
+    {% for promocion in promociones %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-sm border-0 h-100 overflow-hidden" style="border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s;">
+        <!-- Imagen -->
+        <div class="position-relative" style="height: 200px; overflow: hidden;">
+          <img src="{{ promocion.imagen_principal|default:'https://via.placeholder.com/400x200/dc3545/ffffff?text=Promoción' }}" 
+               class="w-100 h-100" style="object-fit: cover;"
+               alt="{{ promocion.titulo }}"
+               onerror="this.src='https://via.placeholder.com/400x200/dc3545/ffffff?text={{ promocion.titulo|urlencode }}';">
           
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <span class="badge bg-light text-danger">{{ promocion.tipo_promocion.nombre }}</span>
-              <small class="text-muted">{{ promocion.restaurante.business_name }}</small>
-            </div>
-            
-            <h5 class="card-title fw-bold">{{ promocion.titulo }}</h5>
-            <p class="card-text text-muted">{{ promocion.descripcion_corta }}</p>
-            
-            {% if promocion.precio_original and promocion.precio_promocional %}
-            <div class="price-section mb-3">
-              <span class="text-decoration-line-through text-muted">${{ promocion.precio_original }}</span>
-              <span class="h5 text-danger fw-bold ms-2">${{ promocion.precio_promocional }}</span>
-            </div>
-            {% endif %}
-            
-            <div class="d-flex justify-content-between align-items-center">
-              <small class="text-muted">
-                <i class="fas fa-eye me-1"></i>{{ promocion.vistas }} vistas
-              </small>
-              <a href="{% url 'promocion_detail' promocion.pk %}" class="btn btn-danger btn-sm">
-                Ver Detalles <i class="fas fa-arrow-right ms-1"></i>
-              </a>
-            </div>
+          <!-- Badges de descuento -->
+          {% if promocion.calcular_descuento %}
+          <div class="position-absolute top-0 end-0 m-3">
+            <span class="badge bg-danger" style="font-size: 1rem; padding: 8px 12px;">
+              -{{ promocion.calcular_descuento|floatformat:0 }}%
+            </span>
+          </div>
+          {% endif %}
+          
+          <!-- Badge de tiempo -->
+          {% if promocion.tiempo_restante <= 3 and promocion.tiempo_restante > 0 %}
+          <div class="position-absolute bottom-0 start-0 m-3">
+            <span class="badge bg-danger" style="font-size: 0.9rem;">
+              <i class="fas fa-clock me-1"></i>{{ promocion.tiempo_restante }} día{{ promocion.tiempo_restante|pluralize }}
+            </span>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Contenido -->
+        <div class="card-body d-flex flex-column">
+          <!-- Badges de tipo y restaurante -->
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <span class="badge bg-light text-danger">{{ promocion.tipo_promocion.nombre }}</span>
+            <small class="text-muted">{{ promocion.restaurante.business_name|truncatewords:3 }}</small>
+          </div>
+
+          <!-- Título -->
+          <h5 class="card-title fw-bold mb-2" style="font-size: 1.1rem;">{{ promocion.titulo }}</h5>
+
+          <!-- Descripción -->
+          <p class="card-text text-muted small mb-3" style="line-height: 1.4;">{{ promocion.descripcion_corta }}</p>
+
+          <!-- Precios -->
+          {% if promocion.precio_original and promocion.precio_promocional %}
+          <div class="mb-3 p-2 bg-light rounded" style="border-left: 4px solid #dc3545;">
+            <span class="text-decoration-line-through text-muted small">${{ promocion.precio_original }}</span>
+            <span class="h6 text-danger fw-bold ms-2">${{ promocion.precio_promocional }}</span>
+          </div>
+          {% endif %}
+
+          <!-- Footer -->
+          <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+            <small class="text-muted">
+              <i class="fas fa-eye me-1"></i>{{ promocion.vistas }} vistas
+            </small>
+            <a href="{% url 'promocion_detail' promocion.pk %}" class="btn btn-danger btn-sm fw-bold">
+              Ver <i class="fas fa-arrow-right ms-1"></i>
+            </a>
           </div>
         </div>
       </div>
-      {% empty %}
-      <div class="col-12 text-center py-5">
-        <i class="fas fa-tag text-muted mb-3" style="font-size: 3rem;"></i>
-        <h4 class="text-muted">No hay promociones disponibles</h4>
-        <p class="text-muted">Pronto tendremos nuevas ofertas para ti</p>
-      </div>
-      {% endfor %}
     </div>
-
-    <!-- Paginación -->
-    {% if promociones.has_other_pages %}
-    <nav aria-label="Paginación de promociones" class="mt-5">
-      <ul class="pagination justify-content-center">
-        {% if promociones.has_previous %}
-          <li class="page-item">
-            <a class="page-link" href="?page=1{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.restaurante %}&restaurante={{ request.GET.restaurante }}{% endif %}">Primera</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="?page={{ promociones.previous_page_number }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.restaurante %}&restaurante={{ request.GET.restaurante }}{% endif %}">Anterior</a>
-          </li>
-        {% endif %}
-
-        <li class="page-item active">
-          <span class="page-link">
-            Página {{ promociones.number }} de {{ promociones.paginator.num_pages }}
-          </span>
-        </li>
-
-        {% if promociones.has_next %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ promociones.next_page_number }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.restaurante %}&restaurante={{ request.GET.restaurante }}{% endif %}">Siguiente</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="?page={{ promociones.paginator.num_pages }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.restaurante %}&restaurante={{ request.GET.restaurante }}{% endif %}">Última</a>
-          </li>
-        {% endif %}
-      </ul>
-    </nav>
-    {% endif %}
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <i class="fas fa-tag text-muted mb-3" style="font-size: 3rem; display: block;"></i>
+      <h4 class="text-muted">No hay promociones disponibles</h4>
+      <p class="text-muted">Pronto tendremos nuevas ofertas para ti</p>
+    </div>
+    {% endfor %}
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  <!-- Paginación -->
+  {% if promociones.has_other_pages %}
+  <nav aria-label="Paginación de promociones" class="mt-5">
+    <ul class="pagination justify-content-center">
+      {% if promociones.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.restaurante %}&restaurante={{ request.GET.restaurante }}{% endif %}">Primera</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ promociones.previous_page_number }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.restaurante %}&restaurante={{ request.GET.restaurante }}{% endif %}">Anterior</a>
+        </li>
+      {% endif %}
+
+      <li class="page-item active">
+        <span class="page-link">
+          Página {{ promociones.number }} de {{ promociones.paginator.num_pages }}
+        </span>
+      </li>
+
+      {% if promociones.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ promociones.next_page_number }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.restaurante %}&restaurante={{ request.GET.restaurante }}{% endif %}">Siguiente</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ promociones.paginator.num_pages }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.restaurante %}&restaurante={{ request.GET.restaurante }}{% endif %}">Última</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+
+<style>
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(220, 53, 69, 0.15) !important;
+  }
+</style>
+
+{% endblock %}

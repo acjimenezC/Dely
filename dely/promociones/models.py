@@ -203,4 +203,27 @@ class UsuarioPromocion(models.Model):
         verbose_name = "Uso de Promoción"
         verbose_name_plural = "Usos de Promociones"
         unique_together = ('usuario', 'promocion')
+
+
+class Subscriber(models.Model):
+    """Emails de usuarios suscritos a promociones y noticias."""
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+
+class BusinessRegistration(models.Model):
+    """Registro de negocios enviado por formulario para que Dely lo revise."""
+    business_name = models.CharField(max_length=200)
+    contact_name = models.CharField(max_length=150, blank=True)
+    contact_email = models.EmailField()
+    phone = models.CharField(max_length=50, blank=True)
+    address = models.CharField(max_length=300, blank=True)
+    description = models.TextField(blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.business_name} ({self.contact_email})"
      

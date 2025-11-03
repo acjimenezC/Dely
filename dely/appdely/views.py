@@ -34,12 +34,49 @@ User = get_user_model()
 # Lista de negocios
 def business_list(request):
     query = request.GET.get('q', '')
+    nearby = request.GET.get('nearby', 'false').lower() == 'true'  # Filtro cercanos
+    max_distance = float(request.GET.get('distance', '5'))  # 5 km por defecto
+    
     businesses = Business.objects.filter(status=True)
+    
+    # Búsqueda por nombre/descripción
     if query:
         businesses = businesses.filter(
             Q(business_name__icontains=query) | Q(description__icontains=query)
         )
-    return render(request, 'appdely/business_list.html', {'businesses': businesses, 'query': query})
+    
+    # Filtrar por distancia si el usuario pasó coordenadas
+    if nearby:
+        user_lat = request.GET.get('lat')
+        user_lon = request.GET.get('lon')
+        
+        if user_lat and user_lon:
+            try:
+                user_lat = float(user_lat)
+                user_lon = float(user_lon)
+                
+                # Filtrar negocios con coordenadas y calcular distancia
+                nearby_businesses = []
+                for business in businesses:
+                    if business.latitude and business.longitude:
+                        distance = business.calcular_distancia(user_lat, user_lon)
+                        if distance and distance <= max_distance:
+                            business.distance = distance  # Agregar distancia al objeto
+                            nearby_businesses.append(business)
+                
+                # Ordenar por distancia
+                nearby_businesses.sort(key=lambda x: x.distance)
+                businesses = nearby_businesses
+                
+            except (ValueError, TypeError):
+                pass  # Si hay error, mostrar todos
+    
+    return render(request, 'appdely/business_list.html', {
+        'businesses': businesses,
+        'query': query,
+        'nearby': nearby,
+        'max_distance': max_distance
+    })
 
 
 # Detalle de negocio con reseñas

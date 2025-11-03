@@ -12,6 +12,8 @@ urlpatterns = [
     
     # Vista combinada (promociones + noticias)
     path('todas/', views.promociones_noticias, name='promociones_noticias'),
+    path('subscribe/', views.subscribe, name='promociones_subscribe'),
+    path('register-business/', views.register_business, name='promociones_register_business'),
     # Descuentos
     path('descuentos/', views.descuentos_list, name='descuentos_list'),
     path('descuentos/<int:opcion_id>/qr/', views.descuento_qr, name='descuento_qr'),

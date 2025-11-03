@@ -1,24 +1,69 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Historial de canjes{% endblock %}
+
 {% block content %}
-<link rel="stylesheet" href="{% static 'promociones/css/descuentos.css' %}">
-<div class="history-box">
-  <h2>Historial de canjes</h2>
-  {% if redenciones %}
-  <div class="list-group">
-    {% for r in redenciones %}
-    <div class="list-group-item d-flex justify-content-between align-items-start">
-      <div>
-        <div class="fw-bold">{{ r.description }}</div>
-        <div class="small text-muted">{{ r.registration_date|date:"d/m/Y H:i" }}</div>
-      </div>
-      <div class="amount text-danger">{{ r.amount }}</div>
+<link rel="stylesheet" href="{% static 'promociones/css/historial.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<div class="history-container">
+  <div class="container" style="max-width: 700px;">
+    
+    <!-- Navbar con volver -->
+    <div class="history-navbar">
+      <a href="{% url 'descuentos_list' %}">
+        <i class="fas fa-arrow-left"></i> Volver a descuentos
+      </a>
     </div>
-    {% endfor %}
+
+    <!-- Header -->
+    <div class="history-header">
+      <h1> Historial de Canjes</h1>
+      <p>Todas tus redenciones de descuentos y promociones</p>
+    </div>
+
+    {% if redenciones %}
+      <!-- Stats -->
+      <div class="history-stats">
+        <div class="stat-card">
+          <h4>Total Canjes</h4>
+          <p>{{ total_canjes }}</p>
+        </div>
+        <div class="stat-card">
+          <h4>Puntos Gastados</h4>
+          <p>{{ total_puntos }}</p>
+        </div>
+      </div>
+
+      <!-- Listado de canjes -->
+      <div class="history-list">
+        {% for r in redenciones %}
+          <div class="history-card">
+            <div class="history-card-content">
+              <div class="history-card-info">
+                <h3>{{ r.description }}</h3>
+                <p>{{ r.registration_date|date:"d \d\e M \d\e Y - H:i" }}</p>
+              </div>
+              <div class="history-card-amount">
+                {{ r.amount }} pts
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    {% else %}
+      <!-- Empty State -->
+      <div class="history-empty">
+        <i class="fas fa-inbox"></i>
+        <h3>No hay canjes registrados</h3>
+        <p>Aún no has canjeado ningún descuento. ¡Empieza a acumular puntos y canjea ahora!</p>
+        <a href="{% url 'descuentos_list' %}">Ver Descuentos Disponibles</a>
+      </div>
+    {% endif %}
+
   </div>
-  {% else %}
-    <p class="text-muted">No tienes redenciones registradas.</p>
-  {% endif %}
 </div>
+
 {% endblock %}

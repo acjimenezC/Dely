@@ -24,8 +24,35 @@ class Business(models.Model):
     business_type = models.ForeignKey(BusinessType, on_delete=models.CASCADE)
     image_url = models.CharField(max_length=100, blank=True, null=True)
     
+    # Ubicación geográfica (para filtrar por cercanía)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, help_text="Latitud del negocio (ej: 6.2442)")
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, help_text="Longitud del negocio (ej: -75.5812)")
+    
     def __str__(self):
         return self.business_name
+
+    def calcular_distancia(self, user_lat, user_lon):
+        """Calcula la distancia en km desde las coordenadas del usuario usando la fórmula de Haversine."""
+        if not self.latitude or not self.longitude:
+            return None
+        
+        from math import radians, sin, cos, sqrt, atan2
+        
+        # Convertir a radianes
+        lat1, lon1 = radians(float(self.latitude)), radians(float(self.longitude))
+        lat2, lon2 = radians(float(user_lat)), radians(float(user_lon))
+        
+        # Fórmula de Haversine
+        dlat = lat2 - lat1
+        dlon = lon2 - lon1
+        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+        c = 2 * atan2(sqrt(a), sqrt(1-a))
+        
+        # Radio de la Tierra en km
+        R = 6371
+        distancia = R * c
+        
+        return round(distancia, 2)
 
     def average_rating(self):
         reviews = self.review_set.all()
