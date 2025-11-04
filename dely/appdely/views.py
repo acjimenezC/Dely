@@ -26,7 +26,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Business, Review
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Count, Avg
 from django.db import models
 
 User = get_user_model()
@@ -34,54 +34,58 @@ User = get_user_model()
 # Lista de negocios
 def business_list(request):
     query = request.GET.get('q', '')
-    nearby = request.GET.get('nearby', 'false').lower() == 'true'  # Filtro cercanos
-    max_distance = float(request.GET.get('distance', '5'))  # 5 km por defecto
+    nearby = request.GET.get('nearby', 'false').lower() == 'true'  # Filtro de negocios cercanos
+    max_distance = float(request.GET.get('distance', '5'))  # Distancia máxima en km (por defecto 5)
+
+    # Filtrar solo negocios activos y agregar análisis (número de reseñas y calificación promedio)
+    businesses = Business.objects.filter(status='True')
     
-    businesses = Business.objects.filter(status=True)
-    
-    # Búsqueda por nombre/descripción
+
+    # Búsqueda por nombre o descripción
     if query:
         businesses = businesses.filter(
             Q(business_name__icontains=query) | Q(description__icontains=query)
         )
-    
-    # Filtrar por distancia si el usuario pasó coordenadas
+
+    # Filtro de negocios cercanos según coordenadas
     if nearby:
         user_lat = request.GET.get('lat')
         user_lon = request.GET.get('lon')
-        
+
         if user_lat and user_lon:
             try:
                 user_lat = float(user_lat)
                 user_lon = float(user_lon)
-                
-                # Filtrar negocios con coordenadas y calcular distancia
                 nearby_businesses = []
+
                 for business in businesses:
                     if business.latitude and business.longitude:
                         distance = business.calcular_distancia(user_lat, user_lon)
                         if distance and distance <= max_distance:
-                            business.distance = distance  # Agregar distancia al objeto
+                            business.distance = round(distance, 2)  # Guardar la distancia
                             nearby_businesses.append(business)
-                
+
                 # Ordenar por distancia
                 nearby_businesses.sort(key=lambda x: x.distance)
                 businesses = nearby_businesses
-                
+
             except (ValueError, TypeError):
-                pass  # Si hay error, mostrar todos
-    
+                pass  # Ignorar si hay error con coordenadas
+
+    # Renderizar el template
     return render(request, 'appdely/business_list.html', {
         'businesses': businesses,
         'query': query,
         'nearby': nearby,
-        'max_distance': max_distance
+        'max_distance': max_distance,
     })
 
 
 # Detalle de negocio con reseñas
 def business_detail(request, business_id):
     business = get_object_or_404(Business, id=business_id)
+    business.visit_count += 1
+    business.save(update_fields=['visit_count'])
     reviews = Review.objects.filter(business=business).order_by('-date')
     # Opciones de descuento (puedes ampliar)
     descuentos = [

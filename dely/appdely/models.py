@@ -23,7 +23,10 @@ class Business(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     business_type = models.ForeignKey(BusinessType, on_delete=models.CASCADE)
     image_url = models.CharField(max_length=100, blank=True, null=True)
-    
+    menu_url = models.CharField(max_length=100, blank=True, null=True)
+    visit_count = models.PositiveIntegerField(default=0)
+    review_count = models.PositiveIntegerField(default=0)
+
     # Ubicación geográfica (para filtrar por cercanía)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, help_text="Latitud del negocio (ej: 6.2442)")
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, help_text="Longitud del negocio (ej: -75.5812)")
@@ -105,7 +108,8 @@ class Review(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     reply = models.TextField(blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)   
-    reports = models.IntegerField(default=0)    
+    reports = models.IntegerField(default=0)
+
 
     def __str__(self):
         return f"Review by {self.user} for {self.business}"
