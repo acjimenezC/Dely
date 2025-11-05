@@ -29,11 +29,6 @@ def promociones_list(request):
     if restaurante_filtro:
         promociones = promociones.filter(restaurante__business_name__icontains=restaurante_filtro)
     
-    # Filtro por ubicación (dirección del restaurante)
-    ubicacion_filtro = request.GET.get('ubicacion')
-    if ubicacion_filtro:
-        promociones = promociones.filter(restaurante__address__icontains=ubicacion_filtro)
-    
     # Ordenar por fecha de creación
     promociones = promociones.order_by('-creada_en')
     
@@ -45,16 +40,11 @@ def promociones_list(request):
     # Obtener tipos de promoción para el filtro
     tipos_promocion = TipoPromocion.objects.all()
     
-    # Obtener ubicaciones únicas para el filtro
-    ubicaciones = Promocion.objects.filter(activa=True).values_list('restaurante__address', flat=True).distinct().order_by('restaurante__address')
-    
     context = {
         'promociones': page_obj,
         'tipos_promocion': tipos_promocion,
-        'ubicaciones': ubicaciones,
         'tipo_seleccionado': tipo_filtro,
         'restaurante_busqueda': restaurante_filtro,
-        'ubicacion_seleccionada': ubicacion_filtro,
     }
     
     return render(request, 'promociones/promociones_list.html', context)
