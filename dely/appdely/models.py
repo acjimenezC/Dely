@@ -22,8 +22,8 @@ class Business(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     business_type = models.ForeignKey(BusinessType, on_delete=models.CASCADE)
-    image_url = models.CharField(max_length=100, blank=True, null=True)
-    menu_url = models.CharField(max_length=100, blank=True, null=True)
+    image_url = models.CharField(max_length=500, blank=True, null=True)
+    menu_url = models.CharField(max_length=500, blank=True, null=True)
     visit_count = models.PositiveIntegerField(default=0)
     review_count = models.PositiveIntegerField(default=0)
 
@@ -67,7 +67,7 @@ class Business(models.Model):
     
 class BusinessImage(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='images')
-    image_url = models.CharField(max_length=100)  # Guarda solo el nombre, ej: 'cafe_sol.jpg'
+    image_url = models.CharField(max_length=500)  # Guarda URLs largas de imágenes
 
     def __str__(self):
         return f"Imagen de {self.business.business_name}: {self.image_url}"

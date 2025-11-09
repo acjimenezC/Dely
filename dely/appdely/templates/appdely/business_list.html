@@ -422,6 +422,7 @@
             });
             
             let visibleCount = 0;
+            let visibleCards = []; // Almacenar tarjetas visibles
             
             // Aplicar filtros a cada tarjeta de restaurante
             restaurantCards.forEach(card => {
@@ -445,11 +446,15 @@
                 // Mostrar u ocultar la tarjeta
                 if (shouldShow) {
                     card.style.display = 'block';
+                    visibleCards.push(card);
                     visibleCount++;
                 } else {
                     card.style.display = 'none';
                 }
             });
+            
+            // Aplicar ancho adaptativo a tarjetas visibles
+            applyAdaptiveWidth(visibleCards);
             
             // Actualizar contador
             if (restaurantCounter) {
@@ -482,6 +487,25 @@
                     existingNoResults.remove();
                 }
             }
+        }
+        
+        // Función para aplicar ancho adaptativo a las tarjetas visibles
+        function applyAdaptiveWidth(visibleCards) {
+            visibleCards.forEach((card, index) => {
+                if (visibleCards.length === 1) {
+                    // Si solo hay 1 tarjeta, ocupar 100% de ancho
+                    card.style.flex = '0 0 100%';
+                    card.style.maxWidth = '100%';
+                } else if (visibleCards.length === 2) {
+                    // Si hay 2 tarjetas, cada una ocupa 50%
+                    card.style.flex = '0 0 50%';
+                    card.style.maxWidth = '50%';
+                } else {
+                    // Si hay 3 o más, cada una ocupa 33.33%
+                    card.style.flex = '0 0 33.333333%';
+                    card.style.maxWidth = '33.333333%';
+                }
+            });
         }
         
         // Función para limpiar todos los filtros
